@@ -8,6 +8,7 @@ env:
   global:
     - COMPOSER_ARGS="--no-interaction"
     - COVERAGE_DEPS="php-coveralls/php-coveralls"
+    - SERIALIZER_DEPS="laminas/laminas-serializer"
 
 matrix:
   fast_finish: true
@@ -56,6 +57,7 @@ before_install:
 
 install:
   - travis_retry composer install $COMPOSER_ARGS --ignore-platform-reqs
+  - travis_retry composer require --dev --no-update $COMPOSER_ARGS $SERIALIZER_DEPS
   - if [[ $DEPS == 'latest' ]]; then travis_retry composer update $COMPOSER_ARGS ; fi
   - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable $COMPOSER_ARGS ; fi
   - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS $COVERAGE_DEPS ; fi
