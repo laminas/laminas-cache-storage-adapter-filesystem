@@ -4,7 +4,7 @@
          bootstrap="vendor/autoload.php"
          colors="true">
     <testsuites>
-        <testsuite name="Laminas cache-storage-adapter-{adapter} Tests">
+        <testsuite name="Laminas cache-storage-adapter-filesystem Tests">
             <directory>./test</directory>
         </testsuite>
     </testsuites>

@@ -3,6 +3,6 @@ site_dir: docs/html
 nav:
     - Home: index.md
     - Introduction: v1/intro.md
-site_name: 'laminas-cache-storage-adapter-{adapter}'
+site_name: 'laminas-cache-storage-adapter-filesystem'
 site_description: ''
-repo_url: 'https://github.com/laminas/laminas-cache-storage-adapter-{adapter}'
+repo_url: 'https://github.com/laminas/laminas-cache-storage-adapter-filesystem'
