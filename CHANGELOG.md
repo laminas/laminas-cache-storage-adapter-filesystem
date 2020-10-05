@@ -8,23 +8,17 @@ This is the initial release of `laminas/laminas-cache-storage-adapter-filesystem
 
  **This release does not contain any changes when compared to `laminas/laminas-cache` v2.9!** 
 
-### Added
 
-- Nothing.
 
-### Changed
+-----
 
-- Nothing.
+### Release Notes for [1.0.0](https://github.com/laminas/laminas-cache-storage-adapter-filesystem/milestone/1)
 
-### Deprecated
 
-- Nothing.
 
-### Removed
+### 1.0.0
 
-- Nothing.
-
-### Fixed
-
-- Nothing.
+- Total issues resolved: **0**
+- Total pull requests resolved: **0**
+- Total contributors: **0**
 
