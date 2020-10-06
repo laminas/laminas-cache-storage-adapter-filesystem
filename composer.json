@@ -7,8 +7,7 @@
     ],
     "license": "BSD-3-Clause",
     "require": {
-        "php": "^7.3 || ~8.0.0",
-        "laminas/laminas-cache": "^2.10@dev"
+        "php": "^7.3 || ~8.0.0"
     },
     "provide": {
         "laminas/laminas-cache-storage-implementation": "1.0"
@@ -16,12 +15,11 @@
     "require-dev": {
         "laminas/laminas-cache-storage-adapter-test": "^1.0@dev",
         "laminas/laminas-coding-standard": "~1.0.0",
-        "squizlabs/php_codesniffer": "^2.7"
+        "squizlabs/php_codesniffer": "^2.7",
+        "laminas/laminas-cache": "^2.10"
     },
     "config": {
         "sort-packages": true
-    },
-    "extra": {
     },
     "autoload": {
         "psr-4": {
@@ -46,5 +44,8 @@
         "source": "https://github.com/laminas/laminas-cache-storage-adapter-filesystem",
         "docs": "https://docs.laminas.dev/laminas-cache-storage-adapter-filesystem/",
         "rss": "https://github.com/laminas/laminas-cache-storage-adapter-filesystem/releases.atom"
+    },
+    "conflict": {
+        "laminas/laminas-cache": "<2.10"
     }
 }
