@@ -9,14 +9,17 @@
     "require": {
         "php": "^7.3 || ~8.0.0"
     },
+    "conflict": {
+        "laminas/laminas-cache": "<2.10"
+    },
     "provide": {
         "laminas/laminas-cache-storage-implementation": "1.0"
     },
     "require-dev": {
+        "laminas/laminas-cache": "^2.10",
         "laminas/laminas-cache-storage-adapter-test": "^1.0@dev",
         "laminas/laminas-coding-standard": "~1.0.0",
-        "squizlabs/php_codesniffer": "^2.7",
-        "laminas/laminas-cache": "^2.10"
+        "squizlabs/php_codesniffer": "^2.7"
     },
     "config": {
         "sort-packages": true
@@ -44,8 +47,5 @@
         "source": "https://github.com/laminas/laminas-cache-storage-adapter-filesystem",
         "docs": "https://docs.laminas.dev/laminas-cache-storage-adapter-filesystem/",
         "rss": "https://github.com/laminas/laminas-cache-storage-adapter-filesystem/releases.atom"
-    },
-    "conflict": {
-        "laminas/laminas-cache": "<2.10"
     }
 }
