@@ -29,6 +29,7 @@ matrix:
         - DEPS=latest
         - CS_CHECK=true
         - TEST_COVERAGE=true
+        - XDEBUG_MODE=coverage
     - php: 8.0
       env:
         - DEPS=latest
