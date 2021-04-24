@@ -18,7 +18,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- Nothing.
+- Remove `laminas/laminas-cache` dependency to avoid circular dependencies.
 
 ### Fixed
 
