@@ -1,7 +1,6 @@
 # laminas-cache-storage-adapter-filesystem
 
-[![Build Status](https://travis-ci.com/laminas/laminas-cache-storage-adapter-filesystem.svg?branch=master)](https://travis-ci.com/laminas/laminas-cache-storage-adapter-filesystem)
-[![Coverage Status](https://coveralls.io/repos/github/laminas/laminas-cache-storage-adapter-filesystem/badge.svg?branch=master)](https://coveralls.io/github/laminas/laminas-cache-storage-adapter-filesystem?branch=master)
+[![Build Status](https://github.com/laminas/laminas-cache-storage-adapter-filesystem/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/laminas/laminas-cache-storage-adapter-filesystem/actions/workflows/continuous-integration.yml)
 
 This library provides …
 
