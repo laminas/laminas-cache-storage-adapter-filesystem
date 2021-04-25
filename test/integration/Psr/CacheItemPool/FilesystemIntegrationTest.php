@@ -15,11 +15,9 @@ use PHPUnit\Framework\TestCase;
 
 class FilesystemIntegrationTest extends TestCase
 {
-    /**
-     * @expectedException \Laminas\Cache\Psr\CacheItemPool\CacheException
-     */
     public function testAdapterNotSupported()
     {
+        $this->expectException(\Laminas\Cache\Psr\CacheItemPool\CacheException::class);
         $storage = StorageFactory::adapterFactory('filesystem');
         $storage->addPlugin(new Serializer());
         new CacheItemPoolDecorator($storage);
