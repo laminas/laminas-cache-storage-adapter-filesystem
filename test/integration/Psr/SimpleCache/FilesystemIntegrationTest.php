@@ -23,7 +23,7 @@ class FilesystemIntegrationTest extends SimpleCacheTest
     /** @var int */
     protected $umask;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->umask = umask();
 
@@ -47,16 +47,18 @@ class FilesystemIntegrationTest extends SimpleCacheTest
 
         $ttlMessage = 'Filesystem adapter does not honor TTL';
         $keyMessage = 'Filesystem adapter supports a subset of PSR-16 characters for keys';
+        $keyLengthMessage = 'Filesystem adapter supports only 64 characters for a cache key';
 
         $this->skippedTests['testSetTtl'] = $ttlMessage;
         $this->skippedTests['testSetMultipleTtl'] = $ttlMessage;
         $this->skippedTests['testSetValidKeys'] = $keyMessage;
         $this->skippedTests['testSetMultipleValidKeys'] = $keyMessage;
+        $this->skippedTests['testBasicUsageWithLongKey'] = $keyLengthMessage;
 
         parent::setUp();
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         $this->removeRecursive($this->tmpCacheDir);
 
