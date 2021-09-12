@@ -4,3 +4,4 @@
 /laminas-mkdoc-theme/
 /vendor/
 /.phpcs-cache
+/psalm.xml

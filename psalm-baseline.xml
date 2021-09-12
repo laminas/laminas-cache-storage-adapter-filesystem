@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.10.0@916b098b008f6de4543892b1e0651c1c3b92cbfa">
+  <file src="src/Filesystem.php">
+    <DocblockTypeContradiction occurrences="3">
+      <code>$perm === false</code>
+      <code>$perm === false</code>
+      <code>is_string($data)</code>
+    </DocblockTypeContradiction>
+    <ImplementedReturnTypeMismatch occurrences="2">
+      <code>bool</code>
+      <code>bool</code>
+    </ImplementedReturnTypeMismatch>
+    <ImplicitToStringCast occurrences="8">
+      <code>$pathname</code>
+      <code>$pathname</code>
+      <code>$pathname</code>
+      <code>$pathname</code>
+      <code>$pathname</code>
+      <code>$pathname</code>
+      <code>$pathname</code>
+      <code>$pathname</code>
+    </ImplicitToStringCast>
+    <InvalidNullableReturnType occurrences="1">
+      <code>string</code>
+    </InvalidNullableReturnType>
+    <InvalidReturnStatement occurrences="2">
+      <code>parent::addItems($keyValuePairs)</code>
+      <code>parent::replaceItems($keyValuePairs)</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="2">
+      <code>bool</code>
+      <code>bool</code>
+    </InvalidReturnType>
+    <InvalidThrow occurrences="24">
+      <code>Exception\ExceptionInterface</code>
+      <code>Exception\ExceptionInterface</code>
+      <code>Exception\ExceptionInterface</code>
+      <code>Exception\ExceptionInterface</code>
+      <code>Exception\ExceptionInterface</code>
+      <code>Exception\ExceptionInterface</code>
+      <code>Exception\ExceptionInterface</code>
+      <code>Exception\ExceptionInterface</code>
+      <code>Exception\ExceptionInterface</code>
+      <code>Exception\ExceptionInterface</code>
+      <code>Exception\ExceptionInterface</code>
+      <code>Exception\ExceptionInterface</code>
+      <code>Exception\ExceptionInterface</code>
+      <code>Exception\ExceptionInterface</code>
+      <code>Exception\ExceptionInterface</code>
+      <code>Exception\ExceptionInterface</code>
+      <code>Exception\ExceptionInterface</code>
+      <code>Exception\ExceptionInterface</code>
+      <code>Exception\ExceptionInterface</code>
+      <code>Exception\ExceptionInterface</code>
+      <code>Exception\ExceptionInterface</code>
+      <code>Exception\ExceptionInterface</code>
+      <code>Exception\ExceptionInterface</code>
+      <code>Exception\ExceptionInterface</code>
+    </InvalidThrow>
+    <LessSpecificReturnStatement occurrences="1">
+      <code>parent::setOptions($options)</code>
+    </LessSpecificReturnStatement>
+    <MissingClosureParamType occurrences="3">
+      <code>$dir</code>
+      <code>$event</code>
+      <code>$event</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="1">
+      <code>function ($event) use (&amp;$events, &amp;$handle, &amp;$totalSpace) {</code>
+    </MissingClosureReturnType>
+    <MixedArgument occurrences="6">
+      <code>$content</code>
+      <code>$key</code>
+      <code>$normalizedKey</code>
+      <code>$params['namespace_separator']</code>
+      <code>$value</code>
+      <code>$value</code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="1">
+      <code>$metadata</code>
+    </MixedArgumentTypeCoercion>
+    <MixedArrayAccess occurrences="1">
+      <code>$params['namespace_separator']</code>
+    </MixedArrayAccess>
+    <MixedArrayOffset occurrences="1">
+      <code>$result[$normalizedKey]</code>
+    </MixedArrayOffset>
+    <MixedAssignment occurrences="8">
+      <code>$content</code>
+      <code>$contents[$this-&gt;formatFilename($filespec)]</code>
+      <code>$key</code>
+      <code>$normalizedKey</code>
+      <code>$params</code>
+      <code>$params</code>
+      <code>$res</code>
+      <code>$value</code>
+    </MixedAssignment>
+    <MixedFunctionCall occurrences="1">
+      <code>$clearFolder($pathname)</code>
+    </MixedFunctionCall>
+    <MixedInferredReturnType occurrences="4">
+      <code>FilesystemOptions</code>
+      <code>bool</code>
+      <code>bool</code>
+      <code>bool</code>
+    </MixedInferredReturnType>
+    <MixedMethodCall occurrences="4">
+      <code>attach</code>
+      <code>detach</code>
+      <code>getParams</code>
+      <code>getParams</code>
+    </MixedMethodCall>
+    <MixedOperand occurrences="1">
+      <code>$dir</code>
+    </MixedOperand>
+    <MixedReturnStatement occurrences="4">
+      <code>$this-&gt;options</code>
+    </MixedReturnStatement>
+    <MoreSpecificImplementedParamType occurrences="1">
+      <code>$options</code>
+    </MoreSpecificImplementedParamType>
+    <MoreSpecificReturnType occurrences="1">
+      <code>Filesystem</code>
+    </MoreSpecificReturnType>
+    <PossiblyInvalidArgument occurrences="8">
+      <code>$pathname</code>
+      <code>$pathname</code>
+      <code>$pathname</code>
+      <code>$pathname</code>
+      <code>$pathname</code>
+      <code>$pathname</code>
+      <code>$pathname</code>
+      <code>$pathname</code>
+    </PossiblyInvalidArgument>
+    <PossiblyNullArgument occurrences="4">
+      <code>$err</code>
+      <code>$options-&gt;getCacheDir()</code>
+      <code>$path</code>
+      <code>$path</code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand occurrences="6">
+      <code>$options-&gt;getCacheDir()</code>
+      <code>$options-&gt;getCacheDir()</code>
+      <code>$options-&gt;getCacheDir()</code>
+      <code>$options-&gt;getCacheDir()</code>
+      <code>$options-&gt;getCacheDir()</code>
+      <code>$options-&gt;getCacheDir()</code>
+    </PossiblyNullOperand>
+    <PossiblyUndefinedVariable occurrences="2">
+      <code>$diff</code>
+      <code>$diff</code>
+    </PossiblyUndefinedVariable>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>Filesystem</code>
+    </PropertyNotSetInConstructor>
+    <RedundantCastGivenDocblockType occurrences="2">
+      <code>(string) $namespace</code>
+      <code>(string) $prefix</code>
+    </RedundantCastGivenDocblockType>
+    <RedundantConditionGivenDocblockType occurrences="3">
+      <code>$perm</code>
+      <code>$perm !== false</code>
+      <code>decoct($perm)</code>
+    </RedundantConditionGivenDocblockType>
+    <ReferenceConstraintViolation occurrences="4">
+      <code>$wouldblock</code>
+      <code>return $res;</code>
+      <code>return;</code>
+      <code>return;</code>
+    </ReferenceConstraintViolation>
+    <UnusedVariable occurrences="1">
+      <code>$clearFolder</code>
+    </UnusedVariable>
+  </file>
+  <file src="src/FilesystemIterator.php">
+    <ImplementedReturnTypeMismatch occurrences="1">
+      <code>bool</code>
+    </ImplementedReturnTypeMismatch>
+    <InvalidNullableReturnType occurrences="1">
+      <code>bool</code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement occurrences="1">
+      <code>$this-&gt;globIterator-&gt;rewind()</code>
+    </NullableReturnStatement>
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(int) $mode</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="src/FilesystemOptions.php">
+    <NullArgument occurrences="1">
+      <code>null</code>
+    </NullArgument>
+    <PossiblyInvalidPropertyAssignmentValue occurrences="3">
+      <code>$dirPermission</code>
+      <code>$filePermission</code>
+      <code>$umask</code>
+    </PossiblyInvalidPropertyAssignmentValue>
+    <RedundantCastGivenDocblockType occurrences="9">
+      <code>(bool) $clearStatCache</code>
+      <code>(bool) $fileLocking</code>
+      <code>(bool) $noAtime</code>
+      <code>(bool) $noCtime</code>
+      <code>(int) $dirLevel</code>
+      <code>(int) $dirPermission</code>
+      <code>(int) $filePermission</code>
+      <code>(int) $umask</code>
+      <code>(string) $namespaceSeparator</code>
+    </RedundantCastGivenDocblockType>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>$cacheDir !== null</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="test/integration/Psr/CacheItemPool/FilesystemIntegrationTest.php">
+    <MissingReturnType occurrences="1">
+      <code>testAdapterNotSupported</code>
+    </MissingReturnType>
+    <UndefinedInterfaceMethod occurrences="1">
+      <code>addPlugin</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="test/integration/Psr/SimpleCache/FilesystemIntegrationTest.php">
+    <MixedArrayAssignment occurrences="5">
+      <code>$this-&gt;skippedTests['testBasicUsageWithLongKey']</code>
+      <code>$this-&gt;skippedTests['testSetMultipleTtl']</code>
+      <code>$this-&gt;skippedTests['testSetMultipleValidKeys']</code>
+      <code>$this-&gt;skippedTests['testSetTtl']</code>
+      <code>$this-&gt;skippedTests['testSetValidKeys']</code>
+    </MixedArrayAssignment>
+    <PossiblyFalseArgument occurrences="1">
+      <code>$cacheDir</code>
+    </PossiblyFalseArgument>
+    <PossiblyNullArrayAccess occurrences="3">
+      <code>$err['message']</code>
+      <code>$err['message']</code>
+      <code>$err['message']</code>
+    </PossiblyNullArrayAccess>
+  </file>
+  <file src="test/unit/FilesystemTest.php">
+    <MissingParamType occurrences="1">
+      <code>$dir</code>
+    </MissingParamType>
+    <MissingReturnType occurrences="32">
+      <code>_removeRecursive</code>
+      <code>testClearByNamespaceWithUnexpectedDirectory</code>
+      <code>testClearByPrefixWithUnexpectedDirectory</code>
+      <code>testClearExpiredExceptionTriggersEvent</code>
+      <code>testEmptyTagsArrayClearsTags</code>
+      <code>testGetMetadataWithAtime</code>
+      <code>testGetMetadataWithCtime</code>
+      <code>testNormalizeCacheDir</code>
+      <code>testRaceConditionInClearByNamespace</code>
+      <code>testRaceConditionInClearByPrefix</code>
+      <code>testRaceConditionInClearByTags</code>
+      <code>testRaceConditionInClearExpired</code>
+      <code>testRaceConditionInFlush</code>
+      <code>testSetCacheDirNoDirectoryException</code>
+      <code>testSetCacheDirNotReadableException</code>
+      <code>testSetCacheDirNotWritableException</code>
+      <code>testSetCacheDirToSystemsTempDirWithNull</code>
+      <code>testSetDirLevelInvalidException</code>
+      <code>testSetDirPermissionThrowsExceptionIfNotExecutable</code>
+      <code>testSetDirPermissionThrowsExceptionIfNotReadable</code>
+      <code>testSetDirPermissionThrowsExceptionIfNotWritable</code>
+      <code>testSetFilePermissionThrowsExceptionIfExecutable</code>
+      <code>testSetFilePermissionThrowsExceptionIfNotReadable</code>
+      <code>testSetFilePermissionThrowsExceptionIfNotWritable</code>
+      <code>testSetNoAtimeChangesAtimeOfMetadataCapability</code>
+      <code>testSetNoCtimeChangesCtimeOfMetadataCapability</code>
+      <code>testSetUmask</code>
+      <code>testSetUmaskThrowsExceptionIfNotExecutable</code>
+      <code>testSetUmaskThrowsExceptionIfNotReadable</code>
+      <code>testSetUmaskThrowsExceptionIfNotWritable</code>
+      <code>testSuffixIsMutable</code>
+      <code>testTagSuffixIsMutable</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="2">
+      <code>$dir</code>
+      <code>$dir</code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="1">
+      <code>$out</code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment occurrences="1">
+      <code>$cacheDir</code>
+    </MixedAssignment>
+    <MixedOperand occurrences="2">
+      <code>$meta['filespec']</code>
+      <code>$meta['filespec']</code>
+    </MixedOperand>
+    <PossiblyFalseArgument occurrences="2">
+      <code>$cacheDir</code>
+      <code>$firstSlash</code>
+    </PossiblyFalseArgument>
+    <PossiblyFalseOperand occurrences="1">
+      <code>$firstSlash</code>
+    </PossiblyFalseOperand>
+    <PossiblyNullArrayAccess occurrences="4">
+      <code>$err['message']</code>
+      <code>$err['message']</code>
+      <code>$err['message']</code>
+      <code>$err['message']</code>
+    </PossiblyNullArrayAccess>
+    <UndefinedInterfaceMethod occurrences="15">
+      <code>addPlugin</code>
+      <code>clearByNamespace</code>
+      <code>clearByNamespace</code>
+      <code>clearByPrefix</code>
+      <code>clearByPrefix</code>
+      <code>clearByTags</code>
+      <code>clearExpired</code>
+      <code>clearExpired</code>
+      <code>flush</code>
+      <code>getTags</code>
+      <code>getTags</code>
+      <code>setTags</code>
+      <code>setTags</code>
+      <code>setTags</code>
+      <code>setTags</code>
+    </UndefinedInterfaceMethod>
+    <UndefinedMethod occurrences="40">
+      <code>getCacheDir</code>
+      <code>getCacheDir</code>
+      <code>getSuffix</code>
+      <code>getTagSuffix</code>
+      <code>getUmask</code>
+      <code>getUmask</code>
+      <code>setCacheDir</code>
+      <code>setCacheDir</code>
+      <code>setCacheDir</code>
+      <code>setCacheDir</code>
+      <code>setCacheDir</code>
+      <code>setDirLevel</code>
+      <code>setDirLevel</code>
+      <code>setDirLevel</code>
+      <code>setDirLevel</code>
+      <code>setDirLevel</code>
+      <code>setDirLevel</code>
+      <code>setDirLevel</code>
+      <code>setDirLevel</code>
+      <code>setDirLevel</code>
+      <code>setDirLevel</code>
+      <code>setDirPermission</code>
+      <code>setDirPermission</code>
+      <code>setDirPermission</code>
+      <code>setFilePermission</code>
+      <code>setFilePermission</code>
+      <code>setFilePermission</code>
+      <code>setNoAtime</code>
+      <code>setNoAtime</code>
+      <code>setNoAtime</code>
+      <code>setNoCtime</code>
+      <code>setNoCtime</code>
+      <code>setNoCtime</code>
+      <code>setSuffix</code>
+      <code>setTagSuffix</code>
+      <code>setUmask</code>
+      <code>setUmask</code>
+      <code>setUmask</code>
+      <code>setUmask</code>
+      <code>setUmask</code>
+    </UndefinedMethod>
+    <UnusedVariable occurrences="1">
+      <code>$glob</code>
+    </UnusedVariable>
+  </file>
+  <file src="test/unit/TestAsset/FilesystemDelayedUnlink.php">
+    <MixedArgument occurrences="1">
+      <code>$unlinkDelay</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="1">
+      <code>$unlinkDelay</code>
+    </MixedAssignment>
+  </file>
+</files>
