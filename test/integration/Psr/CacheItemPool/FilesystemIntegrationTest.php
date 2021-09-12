@@ -6,16 +6,16 @@ namespace LaminasTest\Cache\Psr\CacheItemPool;
 
 use Laminas\Cache\Psr\CacheItemPool\CacheException;
 use Laminas\Cache\Psr\CacheItemPool\CacheItemPoolDecorator;
+use Laminas\Cache\Storage\Adapter\Filesystem;
 use Laminas\Cache\Storage\Plugin\Serializer;
-use Laminas\Cache\StorageFactory;
 use PHPUnit\Framework\TestCase;
 
 class FilesystemIntegrationTest extends TestCase
 {
-    public function testAdapterNotSupported()
+    public function testAdapterNotSupported(): void
     {
         $this->expectException(CacheException::class);
-        $storage = StorageFactory::adapterFactory('filesystem');
+        $storage = new Filesystem();
         $storage->addPlugin(new Serializer());
         new CacheItemPoolDecorator($storage);
     }

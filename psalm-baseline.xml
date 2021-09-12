@@ -31,32 +31,6 @@
       <code>bool</code>
       <code>bool</code>
     </InvalidReturnType>
-    <InvalidThrow occurrences="24">
-      <code>Exception\ExceptionInterface</code>
-      <code>Exception\ExceptionInterface</code>
-      <code>Exception\ExceptionInterface</code>
-      <code>Exception\ExceptionInterface</code>
-      <code>Exception\ExceptionInterface</code>
-      <code>Exception\ExceptionInterface</code>
-      <code>Exception\ExceptionInterface</code>
-      <code>Exception\ExceptionInterface</code>
-      <code>Exception\ExceptionInterface</code>
-      <code>Exception\ExceptionInterface</code>
-      <code>Exception\ExceptionInterface</code>
-      <code>Exception\ExceptionInterface</code>
-      <code>Exception\ExceptionInterface</code>
-      <code>Exception\ExceptionInterface</code>
-      <code>Exception\ExceptionInterface</code>
-      <code>Exception\ExceptionInterface</code>
-      <code>Exception\ExceptionInterface</code>
-      <code>Exception\ExceptionInterface</code>
-      <code>Exception\ExceptionInterface</code>
-      <code>Exception\ExceptionInterface</code>
-      <code>Exception\ExceptionInterface</code>
-      <code>Exception\ExceptionInterface</code>
-      <code>Exception\ExceptionInterface</code>
-      <code>Exception\ExceptionInterface</code>
-    </InvalidThrow>
     <LessSpecificReturnStatement occurrences="1">
       <code>parent::setOptions($options)</code>
     </LessSpecificReturnStatement>
@@ -132,20 +106,9 @@
       <code>$pathname</code>
       <code>$pathname</code>
     </PossiblyInvalidArgument>
-    <PossiblyNullArgument occurrences="4">
+    <PossiblyNullArgument occurrences="1">
       <code>$err</code>
-      <code>$options-&gt;getCacheDir()</code>
-      <code>$path</code>
-      <code>$path</code>
     </PossiblyNullArgument>
-    <PossiblyNullOperand occurrences="6">
-      <code>$options-&gt;getCacheDir()</code>
-      <code>$options-&gt;getCacheDir()</code>
-      <code>$options-&gt;getCacheDir()</code>
-      <code>$options-&gt;getCacheDir()</code>
-      <code>$options-&gt;getCacheDir()</code>
-      <code>$options-&gt;getCacheDir()</code>
-    </PossiblyNullOperand>
     <PossiblyUndefinedVariable occurrences="2">
       <code>$diff</code>
       <code>$diff</code>
@@ -187,9 +150,6 @@
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/FilesystemOptions.php">
-    <NullArgument occurrences="1">
-      <code>null</code>
-    </NullArgument>
     <PossiblyInvalidPropertyAssignmentValue occurrences="3">
       <code>$dirPermission</code>
       <code>$filePermission</code>
@@ -210,155 +170,40 @@
       <code>$cacheDir !== null</code>
     </RedundantConditionGivenDocblockType>
   </file>
-  <file src="test/integration/Psr/CacheItemPool/FilesystemIntegrationTest.php">
-    <MissingReturnType occurrences="1">
-      <code>testAdapterNotSupported</code>
-    </MissingReturnType>
-    <UndefinedInterfaceMethod occurrences="1">
-      <code>addPlugin</code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="test/integration/Psr/SimpleCache/FilesystemIntegrationTest.php">
-    <MixedArrayAssignment occurrences="5">
-      <code>$this-&gt;skippedTests['testBasicUsageWithLongKey']</code>
-      <code>$this-&gt;skippedTests['testSetMultipleTtl']</code>
-      <code>$this-&gt;skippedTests['testSetMultipleValidKeys']</code>
-      <code>$this-&gt;skippedTests['testSetTtl']</code>
-      <code>$this-&gt;skippedTests['testSetValidKeys']</code>
-    </MixedArrayAssignment>
     <PossiblyFalseArgument occurrences="1">
       <code>$cacheDir</code>
     </PossiblyFalseArgument>
-    <PossiblyNullArrayAccess occurrences="3">
-      <code>$err['message']</code>
-      <code>$err['message']</code>
-      <code>$err['message']</code>
-    </PossiblyNullArrayAccess>
   </file>
   <file src="test/unit/FilesystemTest.php">
-    <MissingParamType occurrences="1">
-      <code>$dir</code>
-    </MissingParamType>
-    <MissingReturnType occurrences="32">
-      <code>_removeRecursive</code>
+    <MissingReturnType occurrences="13">
       <code>testClearByNamespaceWithUnexpectedDirectory</code>
       <code>testClearByPrefixWithUnexpectedDirectory</code>
       <code>testClearExpiredExceptionTriggersEvent</code>
       <code>testEmptyTagsArrayClearsTags</code>
       <code>testGetMetadataWithAtime</code>
       <code>testGetMetadataWithCtime</code>
-      <code>testNormalizeCacheDir</code>
       <code>testRaceConditionInClearByNamespace</code>
       <code>testRaceConditionInClearByPrefix</code>
       <code>testRaceConditionInClearByTags</code>
       <code>testRaceConditionInClearExpired</code>
       <code>testRaceConditionInFlush</code>
-      <code>testSetCacheDirNoDirectoryException</code>
-      <code>testSetCacheDirNotReadableException</code>
-      <code>testSetCacheDirNotWritableException</code>
-      <code>testSetCacheDirToSystemsTempDirWithNull</code>
-      <code>testSetDirLevelInvalidException</code>
-      <code>testSetDirPermissionThrowsExceptionIfNotExecutable</code>
-      <code>testSetDirPermissionThrowsExceptionIfNotReadable</code>
-      <code>testSetDirPermissionThrowsExceptionIfNotWritable</code>
-      <code>testSetFilePermissionThrowsExceptionIfExecutable</code>
-      <code>testSetFilePermissionThrowsExceptionIfNotReadable</code>
-      <code>testSetFilePermissionThrowsExceptionIfNotWritable</code>
       <code>testSetNoAtimeChangesAtimeOfMetadataCapability</code>
       <code>testSetNoCtimeChangesCtimeOfMetadataCapability</code>
-      <code>testSetUmask</code>
-      <code>testSetUmaskThrowsExceptionIfNotExecutable</code>
-      <code>testSetUmaskThrowsExceptionIfNotReadable</code>
-      <code>testSetUmaskThrowsExceptionIfNotWritable</code>
-      <code>testSuffixIsMutable</code>
-      <code>testTagSuffixIsMutable</code>
     </MissingReturnType>
-    <MixedArgument occurrences="2">
-      <code>$dir</code>
-      <code>$dir</code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>$out</code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="1">
-      <code>$cacheDir</code>
-    </MixedAssignment>
     <MixedOperand occurrences="2">
       <code>$meta['filespec']</code>
       <code>$meta['filespec']</code>
     </MixedOperand>
-    <PossiblyFalseArgument occurrences="2">
+    <PossiblyFalseArgument occurrences="1">
       <code>$cacheDir</code>
-      <code>$firstSlash</code>
     </PossiblyFalseArgument>
-    <PossiblyFalseOperand occurrences="1">
-      <code>$firstSlash</code>
-    </PossiblyFalseOperand>
-    <PossiblyNullArrayAccess occurrences="4">
+    <PossiblyNullArrayAccess occurrences="2">
       <code>$err['message']</code>
       <code>$err['message']</code>
       <code>$err['message']</code>
       <code>$err['message']</code>
     </PossiblyNullArrayAccess>
-    <UndefinedInterfaceMethod occurrences="15">
-      <code>addPlugin</code>
-      <code>clearByNamespace</code>
-      <code>clearByNamespace</code>
-      <code>clearByPrefix</code>
-      <code>clearByPrefix</code>
-      <code>clearByTags</code>
-      <code>clearExpired</code>
-      <code>clearExpired</code>
-      <code>flush</code>
-      <code>getTags</code>
-      <code>getTags</code>
-      <code>setTags</code>
-      <code>setTags</code>
-      <code>setTags</code>
-      <code>setTags</code>
-    </UndefinedInterfaceMethod>
-    <UndefinedMethod occurrences="40">
-      <code>getCacheDir</code>
-      <code>getCacheDir</code>
-      <code>getSuffix</code>
-      <code>getTagSuffix</code>
-      <code>getUmask</code>
-      <code>getUmask</code>
-      <code>setCacheDir</code>
-      <code>setCacheDir</code>
-      <code>setCacheDir</code>
-      <code>setCacheDir</code>
-      <code>setCacheDir</code>
-      <code>setDirLevel</code>
-      <code>setDirLevel</code>
-      <code>setDirLevel</code>
-      <code>setDirLevel</code>
-      <code>setDirLevel</code>
-      <code>setDirLevel</code>
-      <code>setDirLevel</code>
-      <code>setDirLevel</code>
-      <code>setDirLevel</code>
-      <code>setDirLevel</code>
-      <code>setDirPermission</code>
-      <code>setDirPermission</code>
-      <code>setDirPermission</code>
-      <code>setFilePermission</code>
-      <code>setFilePermission</code>
-      <code>setFilePermission</code>
-      <code>setNoAtime</code>
-      <code>setNoAtime</code>
-      <code>setNoAtime</code>
-      <code>setNoCtime</code>
-      <code>setNoCtime</code>
-      <code>setNoCtime</code>
-      <code>setSuffix</code>
-      <code>setTagSuffix</code>
-      <code>setUmask</code>
-      <code>setUmask</code>
-      <code>setUmask</code>
-      <code>setUmask</code>
-      <code>setUmask</code>
-    </UndefinedMethod>
     <UnusedVariable occurrences="1">
       <code>$glob</code>
     </UnusedVariable>

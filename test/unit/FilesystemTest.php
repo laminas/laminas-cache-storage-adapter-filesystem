@@ -4,33 +4,26 @@ declare(strict_types=1);
 
 namespace LaminasTest\Cache\Storage\Adapter;
 
-use DirectoryIterator;
-use Exception;
-use Laminas\Cache;
-use Laminas\Cache\Exception\InvalidArgumentException;
+use Laminas\Cache\Exception\RuntimeException;
+use Laminas\Cache\Storage\Adapter\Filesystem;
+use Laminas\Cache\Storage\Adapter\FilesystemOptions;
 use Laminas\Cache\Storage\Plugin\ExceptionHandler;
 use Laminas\Cache\Storage\Plugin\PluginOptions;
 
 use function chmod;
 use function count;
 use function error_get_last;
-use function exec;
-use function file_exists;
 use function fileatime;
 use function filectime;
 use function getenv;
 use function glob;
-use function implode;
 use function md5;
 use function mkdir;
 use function pcntl_fork;
 use function posix_getpid;
 use function posix_kill;
-use function realpath;
-use function rmdir;
 use function sleep;
-use function str_replace;
-use function strpos;
+use function str_repeat;
 use function substr;
 use function sys_get_temp_dir;
 use function tempnam;
@@ -38,10 +31,11 @@ use function umask;
 use function unlink;
 use function usleep;
 
-use const DIRECTORY_SEPARATOR;
-use const PHP_OS;
 use const SIGTERM;
 
+/**
+ * @template-extends AbstractCommonAdapterTest<Filesystem,FilesystemOptions>
+ */
 final class FilesystemTest extends AbstractCommonAdapterTest
 {
     /** @var string */
@@ -60,10 +54,9 @@ final class FilesystemTest extends AbstractCommonAdapterTest
             $cacheDir = sys_get_temp_dir();
         }
 
-        $this->tmpCacheDir = @tempnam($cacheDir, 'laminas_cache_test_');
+        $this->tmpCacheDir = tempnam($cacheDir, 'laminas_cache_test_');
         if (! $this->tmpCacheDir) {
-            $err = error_get_last();
-            $this->fail("Can't create temporary cache directory-file: {$err['message']}");
+            $this->fail("Can't create temporary cache directory-file.");
         } elseif (! @unlink($this->tmpCacheDir)) {
             $err = error_get_last();
             $this->fail("Can't remove temporary cache directory-file: {$err['message']}");
@@ -72,10 +65,10 @@ final class FilesystemTest extends AbstractCommonAdapterTest
             $this->fail("Can't create temporary cache directory: {$err['message']}");
         }
 
-        $this->options = new Cache\Storage\Adapter\FilesystemOptions([
+        $this->options = new FilesystemOptions([
             'cache_dir' => $this->tmpCacheDir,
         ]);
-        $this->storage = new Cache\Storage\Adapter\Filesystem();
+        $this->storage = new Filesystem();
         $this->storage->setOptions($this->options);
 
         parent::setUp();
@@ -83,154 +76,16 @@ final class FilesystemTest extends AbstractCommonAdapterTest
 
     protected function tearDown(): void
     {
-        $this->_removeRecursive($this->tmpCacheDir);
-
         if ($this->umask !== umask()) {
             umask($this->umask);
             $this->fail("Umask wasn't reset");
         }
 
+        if ($this->options->getCacheDir() !== $this->tmpCacheDir) {
+            $this->options->setCacheDir($this->tmpCacheDir);
+        }
+
         parent::tearDown();
-    }
-
-    // @codingStandardsIgnoreStart
-    protected function _removeRecursive($dir)
-    {
-        // @codingStandardsIgnoreEnd
-        if (file_exists($dir)) {
-            $dirIt = new DirectoryIterator($dir);
-            foreach ($dirIt as $entry) {
-                $fname = $entry->getFilename();
-                if ($fname === '.' || $fname === '..') {
-                    continue;
-                }
-
-                if ($entry->isFile()) {
-                    unlink($entry->getPathname());
-                } else {
-                    $this->_removeRecursive($entry->getPathname());
-                }
-            }
-
-            rmdir($dir);
-        }
-    }
-
-    public function getCommonAdapterNamesProvider(): array
-    {
-        return [
-            ['filesystem'],
-            ['Filesystem'],
-        ];
-    }
-
-    public function testNormalizeCacheDir()
-    {
-        $cacheDir = $cacheDirExpected = realpath(sys_get_temp_dir());
-
-        if (DIRECTORY_SEPARATOR !== '/') {
-            $cacheDir = str_replace(DIRECTORY_SEPARATOR, '/', $cacheDir);
-        }
-
-        $firstSlash = strpos($cacheDir, '/');
-        $cacheDir   = substr($cacheDir, 0, $firstSlash + 1)
-                  . '..//../'
-                  . substr($cacheDir, $firstSlash)
-                  . '///';
-
-        $this->options->setCacheDir($cacheDir);
-        $cacheDir = $this->options->getCacheDir();
-
-        $this->assertEquals($cacheDirExpected, $cacheDir);
-    }
-
-    public function testSetCacheDirToSystemsTempDirWithNull()
-    {
-        $this->options->setCacheDir(null);
-        $this->assertEquals(sys_get_temp_dir(), $this->options->getCacheDir());
-    }
-
-    public function testSetCacheDirNoDirectoryException()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->options->setCacheDir(__FILE__);
-    }
-
-    public function testSetCacheDirNotWritableException()
-    {
-        if (substr(PHP_OS, 0, 3) === 'WIN') {
-            $this->markTestSkipped("Not testable on windows");
-        } else {
-            @exec('whoami 2>&1', $out, $ret);
-            if ($ret) {
-                $err = error_get_last();
-                $this->markTestSkipped("Not testable: {$err['message']}");
-            } elseif (isset($out[0]) && $out[0] === 'root') {
-                $this->markTestSkipped("Not testable as root");
-            }
-        }
-
-        $this->expectException(InvalidArgumentException::class);
-
-        // create a not writable temporaty directory
-        $testDir = tempnam(sys_get_temp_dir(), 'LaminasTest');
-        unlink($testDir);
-        mkdir($testDir);
-        chmod($testDir, 0557);
-
-        try {
-            $this->options->setCacheDir($testDir);
-        } catch (Exception $e) {
-            rmdir($testDir);
-            throw $e;
-        }
-    }
-
-    public function testSetCacheDirNotReadableException()
-    {
-        if (substr(PHP_OS, 0, 3) === 'WIN') {
-            $this->markTestSkipped("Not testable on windows");
-        } else {
-            @exec('whoami 2>&1', $out, $ret);
-            if ($ret) {
-                $this->markTestSkipped("Not testable: " . implode("\n", $out));
-            } elseif (isset($out[0]) && $out[0] === 'root') {
-                $this->markTestSkipped("Not testable as root");
-            }
-        }
-
-        $this->expectException(InvalidArgumentException::class);
-
-        // create a not readable temporaty directory
-        $testDir = tempnam(sys_get_temp_dir(), 'LaminasTest');
-        unlink($testDir);
-        mkdir($testDir);
-        chmod($testDir, 0337);
-
-        try {
-            $this->options->setCacheDir($testDir);
-        } catch (Exception $e) {
-            rmdir($testDir);
-            throw $e;
-        }
-    }
-
-    public function testSetFilePermissionThrowsExceptionIfNotWritable()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->options->setFilePermission(0466);
-    }
-
-    public function testSetFilePermissionThrowsExceptionIfNotReadable()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->options->setFilePermission(0266);
-    }
-
-    public function testSetFilePermissionThrowsExceptionIfExecutable()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->options->setFilePermission(0661);
     }
 
     public function testSetNoAtimeChangesAtimeOfMetadataCapability()
@@ -253,57 +108,6 @@ final class FilesystemTest extends AbstractCommonAdapterTest
 
         $this->options->setNoCtime(true);
         $this->assertNotContains('ctime', $capabilities->getSupportedMetadata());
-    }
-
-    public function testSetDirPermissionThrowsExceptionIfNotWritable()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->options->setDirPermission(0577);
-    }
-
-    public function testSetDirPermissionThrowsExceptionIfNotReadable()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->options->setDirPermission(0377);
-    }
-
-    public function testSetDirPermissionThrowsExceptionIfNotExecutable()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->options->setDirPermission(0677);
-    }
-
-    public function testSetDirLevelInvalidException()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->options->setDirLevel(17); // must between 0-16
-    }
-
-    public function testSetUmask()
-    {
-        $this->options->setUmask(023);
-        $this->assertSame(021, $this->options->getUmask());
-
-        $this->options->setUmask(false);
-        $this->assertFalse($this->options->getUmask());
-    }
-
-    public function testSetUmaskThrowsExceptionIfNotWritable()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->options->setUmask(0300);
-    }
-
-    public function testSetUmaskThrowsExceptionIfNotReadable()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->options->setUmask(0200);
-    }
-
-    public function testSetUmaskThrowsExceptionIfNotExecutable()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->options->setUmask(0100);
     }
 
     public function testGetMetadataWithCtime()
@@ -595,18 +399,6 @@ final class FilesystemTest extends AbstractCommonAdapterTest
         }
     }
 
-    public function testSuffixIsMutable()
-    {
-        $this->options->setSuffix('.cache');
-        $this->assertSame('.cache', $this->options->getSuffix());
-    }
-
-    public function testTagSuffixIsMutable()
-    {
-        $this->options->setTagSuffix('.cache');
-        $this->assertSame('.cache', $this->options->getTagSuffix());
-    }
-
     public function testEmptyTagsArrayClearsTags()
     {
         $key  = 'key';
@@ -616,5 +408,19 @@ final class FilesystemTest extends AbstractCommonAdapterTest
         $this->assertNotEmpty($this->storage->getTags($key));
         $this->assertTrue($this->storage->setTags($key, []));
         $this->assertEmpty($this->storage->getTags($key));
+    }
+
+    public function testWillThrowRuntimeExceptionIfNamespaceIsTooLong(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Invalid maximum key length was calculated.');
+
+        $options = new FilesystemOptions([
+            'namespace'           => str_repeat('a', 249),
+            'namespace_separator' => '::',
+        ]);
+
+        $storage = new Filesystem($options);
+        $storage->getCapabilities();
     }
 }

@@ -7,6 +7,7 @@ namespace Laminas\Cache\Storage\Adapter;
 use Laminas\Cache\Exception;
 use Traversable;
 
+use function assert;
 use function is_dir;
 use function is_readable;
 use function is_string;
@@ -15,6 +16,7 @@ use function octdec;
 use function realpath;
 use function rtrim;
 use function stripos;
+use function strlen;
 use function sys_get_temp_dir;
 
 use const DIRECTORY_SEPARATOR;
@@ -25,11 +27,12 @@ use const PHP_OS;
  */
 class FilesystemOptions extends AdapterOptions
 {
+    public const KEY_PATTERN = '/^[a-z0-9_\+\-]*$/Di';
+
     /**
      * Directory to store cache files
      *
-     * @var null|string The cache directory
-     *                  or NULL for the systems temporary directory
+     * @var string The cache directory
      */
     protected $cacheDir;
 
@@ -71,11 +74,9 @@ class FilesystemOptions extends AdapterOptions
     /**
      * Overwrite default key pattern
      *
-     * Defined in AdapterOptions
-     *
      * @var string
      */
-    protected $keyPattern = '/^[a-z0-9_\+\-]*$/Di';
+    protected $keyPattern = self::KEY_PATTERN;
 
     /**
      * Namespace separator
@@ -130,37 +131,29 @@ class FilesystemOptions extends AdapterOptions
             $this->dirPermission  = false;
         }
 
+        $this->setCacheDir(null);
+
         parent::__construct($options);
     }
 
     /**
      * Set cache dir
      *
-     * @param  string $cacheDir
-     * @return FilesystemOptions Provides a fluent interface
+     * @param  string|null $cacheDir
+     * @return FilesystemOptions
      * @throws Exception\InvalidArgumentException
      */
     public function setCacheDir($cacheDir)
     {
+        $cacheDir = $cacheDir ?? $this->normalizedTemporaryCacheDirectory();
         if ($cacheDir !== null) {
-            if (! is_dir($cacheDir)) {
-                throw new Exception\InvalidArgumentException(
-                    "Cache directory '{$cacheDir}' not found or not a directory"
-                );
-            } elseif (! is_writable($cacheDir)) {
-                throw new Exception\InvalidArgumentException(
-                    "Cache directory '{$cacheDir}' not writable"
-                );
-            } elseif (! is_readable($cacheDir)) {
-                throw new Exception\InvalidArgumentException(
-                    "Cache directory '{$cacheDir}' not readable"
-                );
-            }
-
-            $cacheDir = rtrim(realpath($cacheDir), DIRECTORY_SEPARATOR);
-        } else {
-            $cacheDir = sys_get_temp_dir();
+            $cacheDir = $this->normalizeCacheDirectory($cacheDir);
         }
+
+        if ($this->cacheDir === $cacheDir) {
+            return $this;
+        }
+        assert($cacheDir !== null);
 
         $this->triggerOptionEvent('cache_dir', $cacheDir);
         $this->cacheDir = $cacheDir;
@@ -170,14 +163,10 @@ class FilesystemOptions extends AdapterOptions
     /**
      * Get cache dir
      *
-     * @return null|string
+     * @return string
      */
     public function getCacheDir()
     {
-        if ($this->cacheDir === null) {
-            $this->setCacheDir(null);
-        }
-
         return $this->cacheDir;
     }
 
@@ -185,7 +174,7 @@ class FilesystemOptions extends AdapterOptions
      * Set clear stat cache
      *
      * @param  bool $clearStatCache
-     * @return FilesystemOptions Provides a fluent interface
+     * @return FilesystemOptions
      */
     public function setClearStatCache($clearStatCache)
     {
@@ -209,7 +198,7 @@ class FilesystemOptions extends AdapterOptions
      * Set dir level
      *
      * @param  int $dirLevel
-     * @return FilesystemOptions Provides a fluent interface
+     * @return FilesystemOptions
      * @throws Exception\InvalidArgumentException
      */
     public function setDirLevel($dirLevel)
@@ -243,7 +232,7 @@ class FilesystemOptions extends AdapterOptions
      * @see setFilePermission
      *
      * @param false|string|int $dirPermission FALSE to disable explicit permission or an octal number
-     * @return FilesystemOptions Provides a fluent interface
+     * @return FilesystemOptions
      */
     public function setDirPermission($dirPermission)
     {
@@ -284,7 +273,7 @@ class FilesystemOptions extends AdapterOptions
      * Set file locking
      *
      * @param  bool $fileLocking
-     * @return FilesystemOptions Provides a fluent interface
+     * @return FilesystemOptions
      */
     public function setFileLocking($fileLocking)
     {
@@ -312,7 +301,7 @@ class FilesystemOptions extends AdapterOptions
      * @see setDirPermission
      *
      * @param false|string|int $filePermission FALSE to disable explicit permission or an octal number
-     * @return FilesystemOptions Provides a fluent interface
+     * @return FilesystemOptions
      */
     public function setFilePermission($filePermission)
     {
@@ -354,10 +343,24 @@ class FilesystemOptions extends AdapterOptions
     }
 
     /**
+     * @param string $namespace
+     * @return FilesystemOptions
+     */
+    public function setNamespace($namespace)
+    {
+        if (strlen($namespace) >= 250) {
+            throw new Exception\InvalidArgumentException('Provided namespace is too long.');
+        }
+
+        parent::setNamespace($namespace);
+        return $this;
+    }
+
+    /**
      * Set namespace separator
      *
      * @param  string $namespaceSeparator
-     * @return FilesystemOptions Provides a fluent interface
+     * @return FilesystemOptions
      */
     public function setNamespaceSeparator($namespaceSeparator)
     {
@@ -381,7 +384,7 @@ class FilesystemOptions extends AdapterOptions
      * Set no atime
      *
      * @param  bool $noAtime
-     * @return FilesystemOptions Provides a fluent interface
+     * @return FilesystemOptions
      */
     public function setNoAtime($noAtime)
     {
@@ -518,5 +521,29 @@ class FilesystemOptions extends AdapterOptions
     {
         $this->tagSuffix = $tagSuffix;
         return $this;
+    }
+
+    private function normalizedTemporaryCacheDirectory(): string
+    {
+        return $this->normalizeCacheDirectory(sys_get_temp_dir());
+    }
+
+    private function normalizeCacheDirectory(string $cacheDir): string
+    {
+        if (! is_dir($cacheDir)) {
+            throw new Exception\InvalidArgumentException(
+                "Cache directory '{$cacheDir}' not found or not a directory"
+            );
+        } elseif (! is_writable($cacheDir)) {
+            throw new Exception\InvalidArgumentException(
+                "Cache directory '{$cacheDir}' not writable"
+            );
+        } elseif (! is_readable($cacheDir)) {
+            throw new Exception\InvalidArgumentException(
+                "Cache directory '{$cacheDir}' not readable"
+            );
+        }
+
+        return rtrim(realpath($cacheDir), DIRECTORY_SEPARATOR);
     }
 }

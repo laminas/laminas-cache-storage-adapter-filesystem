@@ -1280,11 +1280,23 @@ class Filesystem extends AbstractAdapter implements
                 $metadata[] = 'ctime';
             }
 
-            // Calculate max key length: 255 - strlen(.dat | .tag)
-            $maxKeyLength = 254 - max([
-                strlen($this->getOptions()->getSuffix()),
-                strlen($this->getOptions()->getTagSuffix()),
+            // Calculate max key length: 255 - strlen(.) - strlen(dat | tag)
+            $maxKeyLength = 255 - 1 - max([
+                strlen($options->getSuffix()),
+                strlen($options->getTagSuffix()),
             ]);
+
+            $namespace = $options->getNamespace();
+            if ($namespace !== '') {
+                $maxKeyLength -= strlen($namespace) + strlen($options->getNamespaceSeparator());
+            }
+
+            if ($maxKeyLength < 1) {
+                throw new Exception\RuntimeException(
+                    'Invalid maximum key length was calculated.'
+                    . ' This usually happens if the used namespace is too long.'
+                );
+            }
 
             $capabilities = new Capabilities(
                 $this,
