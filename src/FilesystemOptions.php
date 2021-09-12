@@ -1,9 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Cache\Storage\Adapter;
 
 use Laminas\Cache\Exception;
 use Traversable;
+
+use function is_dir;
+use function is_readable;
+use function is_string;
+use function is_writable;
+use function octdec;
+use function realpath;
+use function rtrim;
+use function stripos;
+use function sys_get_temp_dir;
+
+use const DIRECTORY_SEPARATOR;
+use const PHP_OS;
 
 /**
  * These are options specific to the Filesystem adapter
@@ -16,7 +31,7 @@ class FilesystemOptions extends AdapterOptions
      * @var null|string The cache directory
      *                  or NULL for the systems temporary directory
      */
-    protected $cacheDir = null;
+    protected $cacheDir;
 
     /**
      * Call clearstatcache enabled?
@@ -105,18 +120,14 @@ class FilesystemOptions extends AdapterOptions
     protected $tagSuffix = 'tag';
 
     /**
-     * Constructor
-     *
      * @param  array|Traversable|null $options
-     * @return FilesystemOptions
-     * @throws Exception\InvalidArgumentException
      */
     public function __construct($options = null)
     {
         // disable file/directory permissions by default on windows systems
         if (stripos(PHP_OS, 'WIN') === 0) {
             $this->filePermission = false;
-            $this->dirPermission = false;
+            $this->dirPermission  = false;
         }
 
         parent::__construct($options);
@@ -227,11 +238,12 @@ class FilesystemOptions extends AdapterOptions
     /**
      * Set permission to create directories on unix systems
      *
-     * @param false|string|int $dirPermission FALSE to disable explicit permission or an octal number
-     * @return FilesystemOptions Provides a fluent interface
+     * @link http://php.net/manual/function.chmod.php
      * @see setUmask
      * @see setFilePermission
-     * @link http://php.net/manual/function.chmod.php
+     *
+     * @param false|string|int $dirPermission FALSE to disable explicit permission or an octal number
+     * @return FilesystemOptions Provides a fluent interface
      */
     public function setDirPermission($dirPermission)
     {
@@ -243,7 +255,7 @@ class FilesystemOptions extends AdapterOptions
             }
 
             // validate
-            if (($dirPermission & 0700) != 0700) {
+            if (($dirPermission & 0700) !== 0700) {
                 throw new Exception\InvalidArgumentException(
                     'Invalid directory permission: need permission to execute, read and write by owner'
                 );
@@ -295,11 +307,12 @@ class FilesystemOptions extends AdapterOptions
     /**
      * Set permission to create files on unix systems
      *
-     * @param false|string|int $filePermission FALSE to disable explicit permission or an octal number
-     * @return FilesystemOptions Provides a fluent interface
+     * @link http://php.net/manual/function.chmod.php
      * @see setUmask
      * @see setDirPermission
-     * @link http://php.net/manual/function.chmod.php
+     *
+     * @param false|string|int $filePermission FALSE to disable explicit permission or an octal number
+     * @return FilesystemOptions Provides a fluent interface
      */
     public function setFilePermission($filePermission)
     {
@@ -311,7 +324,7 @@ class FilesystemOptions extends AdapterOptions
             }
 
             // validate
-            if (($filePermission & 0600) != 0600) {
+            if (($filePermission & 0600) !== 0600) {
                 throw new Exception\InvalidArgumentException(
                     'Invalid file permission: need permission to read and write by owner'
                 );
@@ -417,12 +430,13 @@ class FilesystemOptions extends AdapterOptions
      *
      * Note: On multithreaded webservers it's better to explicit set file and dir permission.
      *
-     * @param false|string|int $umask FALSE to disable umask or an octal number
-     * @return FilesystemOptions
-     * @see setFilePermission
-     * @see setDirPermission
      * @link http://php.net/manual/function.umask.php
      * @link http://en.wikipedia.org/wiki/Umask
+     * @see setFilePermission
+     * @see setDirPermission
+     *
+     * @param false|string|int $umask FALSE to disable umask or an octal number
+     * @return FilesystemOptions
      */
     public function setUmask($umask)
     {
@@ -441,7 +455,7 @@ class FilesystemOptions extends AdapterOptions
             }
 
             // normalize
-            $umask = $umask & ~0002;
+            $umask &= ~0002;
         }
 
         if ($this->umask !== $umask) {
@@ -476,6 +490,7 @@ class FilesystemOptions extends AdapterOptions
      * Set the suffix for cache files
      *
      * @param string $suffix
+     * @return self
      */
     public function setSuffix($suffix)
     {
@@ -486,7 +501,7 @@ class FilesystemOptions extends AdapterOptions
     /**
      * Get the suffix for tag files
      *
-     * @return the $tagSuffix
+     * @return string
      */
     public function getTagSuffix()
     {
@@ -497,6 +512,7 @@ class FilesystemOptions extends AdapterOptions
      * Set the suffix for cache files
      *
      * @param string $tagSuffix
+     * @return self
      */
     public function setTagSuffix($tagSuffix)
     {

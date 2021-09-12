@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Cache\Psr\SimpleCache;
 
 use Cache\IntegrationTests\SimpleCacheTest;
@@ -8,6 +10,17 @@ use Laminas\Cache\Psr\SimpleCache\SimpleCacheDecorator;
 use Laminas\Cache\Storage\Adapter\Filesystem;
 use Laminas\Cache\Storage\Adapter\FilesystemOptions;
 use Laminas\Cache\Storage\Plugin\Serializer;
+use Psr\SimpleCache\CacheInterface;
+
+use function error_get_last;
+use function file_exists;
+use function getenv;
+use function mkdir;
+use function rmdir;
+use function sys_get_temp_dir;
+use function tempnam;
+use function umask;
+use function unlink;
 
 class FilesystemIntegrationTest extends SimpleCacheTest
 {
@@ -39,14 +52,14 @@ class FilesystemIntegrationTest extends SimpleCacheTest
             $this->fail("Can't create temporary cache directory: {$err['message']}");
         }
 
-        $ttlMessage = 'Filesystem adapter does not honor TTL';
-        $keyMessage = 'Filesystem adapter supports a subset of PSR-16 characters for keys';
+        $ttlMessage       = 'Filesystem adapter does not honor TTL';
+        $keyMessage       = 'Filesystem adapter supports a subset of PSR-16 characters for keys';
         $keyLengthMessage = 'Filesystem adapter supports only 64 characters for a cache key';
 
-        $this->skippedTests['testSetTtl'] = $ttlMessage;
-        $this->skippedTests['testSetMultipleTtl'] = $ttlMessage;
-        $this->skippedTests['testSetValidKeys'] = $keyMessage;
-        $this->skippedTests['testSetMultipleValidKeys'] = $keyMessage;
+        $this->skippedTests['testSetTtl']                = $ttlMessage;
+        $this->skippedTests['testSetMultipleTtl']        = $ttlMessage;
+        $this->skippedTests['testSetValidKeys']          = $keyMessage;
+        $this->skippedTests['testSetMultipleValidKeys']  = $keyMessage;
         $this->skippedTests['testBasicUsageWithLongKey'] = $keyLengthMessage;
 
         parent::setUp();
@@ -56,7 +69,7 @@ class FilesystemIntegrationTest extends SimpleCacheTest
     {
         $this->removeRecursive($this->tmpCacheDir);
 
-        if ($this->umask != umask()) {
+        if ($this->umask !== umask()) {
             umask($this->umask);
             $this->fail('Umask was not reset');
         }
@@ -64,13 +77,13 @@ class FilesystemIntegrationTest extends SimpleCacheTest
         parent::tearDown();
     }
 
-    public function removeRecursive($dir)
+    public function removeRecursive(string $dir): void
     {
         if (file_exists($dir)) {
             $dirIt = new DirectoryIterator($dir);
             foreach ($dirIt as $entry) {
                 $fname = $entry->getFilename();
-                if ($fname == '.' || $fname == '..') {
+                if ($fname === '.' || $fname === '..') {
                     continue;
                 }
 
@@ -85,7 +98,7 @@ class FilesystemIntegrationTest extends SimpleCacheTest
         }
     }
 
-    public function createSimpleCache()
+    public function createSimpleCache(): CacheInterface
     {
         $storage = new Filesystem();
         $storage->setOptions(new FilesystemOptions([

@@ -1,13 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Cache\Storage\Adapter;
 
+use function usleep;
+
+/**
+ * @param string        $path
+ * @param resource|null $context
+ * @return bool
+ */
 function unlink($path, $context = null)
 {
-    global $unlinkDelay;
-    if (isset($unlinkDelay) && $unlinkDelay > 0) {
+    $unlinkDelay = $GLOBALS['unlinkDelay'] ?? null;
+    if ($unlinkDelay > 0) {
         usleep($unlinkDelay);
     }
 
-    return $context ? \unlink($path, $context) : \unlink($path);
+    return $context !== null ? \unlink($path, $context) : \unlink($path);
 }
