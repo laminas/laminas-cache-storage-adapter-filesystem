@@ -133,9 +133,6 @@ final class FilesystemOptions extends AdapterOptions
     }
 
     /**
-     * Set cache dir
-     *
-     * @return FilesystemOptions
      * @throws Exception\InvalidArgumentException
      */
     public function setCacheDir(?string $cacheDir): self
@@ -174,8 +171,6 @@ final class FilesystemOptions extends AdapterOptions
     }
 
     /**
-     * Set dir level
-     *
      * @throws Exception\InvalidArgumentException
      */
     public function setDirLevel(int $dirLevel): self
@@ -204,8 +199,8 @@ final class FilesystemOptions extends AdapterOptions
      * Set permission to create directories on unix systems
      *
      * @link http://php.net/manual/function.chmod.php
-     * @see setUmask
-     * @see setFilePermission
+     * @see FilesystemOptions::setUmask
+     * @see FilesystemOptions::setFilePermission
      *
      * @param false|string|int $dirPermission FALSE to disable explicit permission or an octal number
      */
@@ -261,8 +256,8 @@ final class FilesystemOptions extends AdapterOptions
      * Set permission to create files on unix systems
      *
      * @link http://php.net/manual/function.chmod.php
-     * @see setUmask
-     * @see setDirPermission
+     * @see FilesystemOptions::setUmask
+     * @see FilesystemOptions::setDirPermission
      *
      * @param false|string|int $filePermission FALSE to disable explicit permission or an octal number
      */
@@ -371,10 +366,10 @@ final class FilesystemOptions extends AdapterOptions
      *
      * @link http://php.net/manual/function.umask.php
      * @link http://en.wikipedia.org/wiki/Umask
-     * @see setFilePermission
-     * @see setDirPermission
+     * @see FilesystemOptions::setFilePermission
+     * @see FilesystemOptions::setDirPermission
      *
-     * @param false|string|int $umask FALSE to disable umask or an octal number
+     * @param false|string|int $umask false to disable umask or an octal number
      */
     public function setUmask($umask): self
     {
@@ -449,6 +444,9 @@ final class FilesystemOptions extends AdapterOptions
         return $this;
     }
 
+    /**
+     * @throws Exception\InvalidArgumentException
+     */
     private function normalizeCacheDirectory(string $cacheDir): string
     {
         if (! is_dir($cacheDir)) {
