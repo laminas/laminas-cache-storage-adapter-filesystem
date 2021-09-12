@@ -1,9 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Cache\Storage\Adapter;
 
 use GlobIterator;
 use Laminas\Cache\Storage\IteratorInterface;
+use LogicException;
+
+use function strlen;
+use function substr;
 
 class FilesystemIterator implements IteratorInterface
 {
@@ -45,7 +51,6 @@ class FilesystemIterator implements IteratorInterface
     /**
      * Constructor
      *
-     * @param Filesystem  $storage
      * @param string      $path
      * @param string      $prefix
      */
@@ -98,15 +103,15 @@ class FilesystemIterator implements IteratorInterface
      */
     public function current()
     {
-        if ($this->mode == IteratorInterface::CURRENT_AS_SELF) {
+        if ($this->mode === IteratorInterface::CURRENT_AS_SELF) {
             return $this;
         }
 
         $key = $this->key();
 
-        if ($this->mode == IteratorInterface::CURRENT_AS_VALUE) {
+        if ($this->mode === IteratorInterface::CURRENT_AS_VALUE) {
             return $this->storage->getItem($key);
-        } elseif ($this->mode == IteratorInterface::CURRENT_AS_METADATA) {
+        } elseif ($this->mode === IteratorInterface::CURRENT_AS_METADATA) {
             return $this->storage->getMetadata($key);
         }
 
@@ -145,7 +150,7 @@ class FilesystemIterator implements IteratorInterface
     {
         try {
             return $this->globIterator->valid();
-        } catch (\LogicException $e) {
+        } catch (LogicException $e) {
             // @link https://bugs.php.net/bug.php?id=55701
             // GlobIterator throws LogicException with message
             // 'The parent constructor was not called: the object is in an invalid state'
@@ -162,7 +167,7 @@ class FilesystemIterator implements IteratorInterface
     {
         try {
             return $this->globIterator->rewind();
-        } catch (\LogicException $e) {
+        } catch (LogicException $e) {
             // @link https://bugs.php.net/bug.php?id=55701
             // GlobIterator throws LogicException with message
             // 'The parent constructor was not called: the object is in an invalid state'

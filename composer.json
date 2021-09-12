@@ -16,15 +16,24 @@
         "laminas/laminas-cache-storage-implementation": "1.0"
     },
     "require-dev": {
-        "laminas/laminas-cache": "^2.10",
-        "laminas/laminas-cache-storage-adapter-test": "^1.1.1",
-        "laminas/laminas-coding-standard": "~1.0.0",
+        "ext-pcntl": "*",
+        "ext-posix": "*",
+        "laminas/laminas-cache": "^3.0 || 3.0.x-dev",
+        "laminas/laminas-cache-storage-adapter-test": "^2.0 || 2.0.x-dev",
+        "laminas/laminas-coding-standard": "^2.3",
         "laminas/laminas-serializer": "^2.10",
         "phpunit/phpunit": "^9.5",
-        "squizlabs/php_codesniffer": "^2.7"
+        "psalm/plugin-phpunit": "^0.16.1",
+        "vimeo/psalm": "^4.10"
     },
     "config": {
         "sort-packages": true
+    },
+    "extra": {
+        "laminas": {
+            "config-provider": "Laminas\\Cache\\Storage\\Adapter\\Filesystem\\ConfigProvider",
+            "module": "Laminas\\Cache\\Storage\\Adapter\\Filesystem"
+        }
     },
     "autoload": {
         "psr-4": {
@@ -34,14 +43,19 @@
     "autoload-dev": {
         "psr-4": {
             "LaminasTest\\Cache\\Storage\\Adapter\\": "test/unit",
+            "LaminasTest\\Cache\\Storage\\Adapter\\Composer\\": "test/integration/Composer",
             "LaminasTest\\Cache\\Psr\\": "test/integration/Psr"
-        }
+        },
+        "files": [
+            "test/unit/TestAsset/FilesystemDelayedUnlink.php"
+        ]
     },
     "scripts": {
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
         "test": "phpunit --colors=always",
-        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
+        "static-analysis": "psalm --shepherd --stats"
     },
     "support": {
         "issues": "https://github.com/laminas/laminas-cache-storage-adapter-filesystem/issues",
