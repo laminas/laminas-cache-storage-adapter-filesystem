@@ -155,20 +155,11 @@
       <code>$filePermission</code>
       <code>$umask</code>
     </PossiblyInvalidPropertyAssignmentValue>
-    <RedundantCastGivenDocblockType occurrences="9">
-      <code>(bool) $clearStatCache</code>
-      <code>(bool) $fileLocking</code>
-      <code>(bool) $noAtime</code>
-      <code>(bool) $noCtime</code>
-      <code>(int) $dirLevel</code>
+    <RedundantCastGivenDocblockType occurrences="3">
       <code>(int) $dirPermission</code>
       <code>(int) $filePermission</code>
       <code>(int) $umask</code>
-      <code>(string) $namespaceSeparator</code>
     </RedundantCastGivenDocblockType>
-    <RedundantConditionGivenDocblockType occurrences="1">
-      <code>$cacheDir !== null</code>
-    </RedundantConditionGivenDocblockType>
   </file>
   <file src="test/integration/Psr/SimpleCache/FilesystemIntegrationTest.php">
     <PossiblyFalseArgument occurrences="1">

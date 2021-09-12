@@ -7,7 +7,6 @@ namespace Laminas\Cache\Storage\Adapter;
 use Laminas\Cache\Exception;
 use Traversable;
 
-use function assert;
 use function is_dir;
 use function is_readable;
 use function is_string;
@@ -22,10 +21,7 @@ use function sys_get_temp_dir;
 use const DIRECTORY_SEPARATOR;
 use const PHP_OS;
 
-/**
- * These are options specific to the Filesystem adapter
- */
-class FilesystemOptions extends AdapterOptions
+final class FilesystemOptions extends AdapterOptions
 {
     public const KEY_PATTERN = '/^[a-z0-9_\+\-]*$/Di';
 
@@ -34,42 +30,42 @@ class FilesystemOptions extends AdapterOptions
      *
      * @var string The cache directory
      */
-    protected $cacheDir;
+    private $cacheDir;
 
     /**
      * Call clearstatcache enabled?
      *
      * @var bool
      */
-    protected $clearStatCache = true;
+    private $clearStatCache = true;
 
     /**
      * How much sub-directaries should be created?
      *
      * @var int
      */
-    protected $dirLevel = 1;
+    private $dirLevel = 1;
 
     /**
      * Permission creating new directories
      *
      * @var false|int
      */
-    protected $dirPermission = 0700;
+    private $dirPermission = 0700;
 
     /**
      * Lock files on writing
      *
      * @var bool
      */
-    protected $fileLocking = true;
+    private $fileLocking = true;
 
     /**
      * Permission creating new files
      *
      * @var false|int
      */
-    protected $filePermission = 0600;
+    private $filePermission = 0600;
 
     /**
      * Overwrite default key pattern
@@ -83,42 +79,42 @@ class FilesystemOptions extends AdapterOptions
      *
      * @var string
      */
-    protected $namespaceSeparator = '-';
+    private $namespaceSeparator = '-';
 
     /**
      * Don't get 'fileatime' as 'atime' on metadata
      *
      * @var bool
      */
-    protected $noAtime = true;
+    private $noAtime = true;
 
     /**
      * Don't get 'filectime' as 'ctime' on metadata
      *
      * @var bool
      */
-    protected $noCtime = true;
+    private $noCtime = true;
 
     /**
      * Umask to create files and directories
      *
      * @var false|int
      */
-    protected $umask = false;
+    private $umask = false;
 
     /**
      * Suffix for cache files
      *
      * @var string
      */
-    protected $suffix = 'dat';
+    private $suffix = 'dat';
 
     /**
      * Suffix for tag files
      *
      * @var string
      */
-    protected $tagSuffix = 'tag';
+    private $tagSuffix = 'tag';
 
     /**
      * @param  array|Traversable|null $options
@@ -139,57 +135,40 @@ class FilesystemOptions extends AdapterOptions
     /**
      * Set cache dir
      *
-     * @param  string|null $cacheDir
      * @return FilesystemOptions
      * @throws Exception\InvalidArgumentException
      */
-    public function setCacheDir($cacheDir)
+    public function setCacheDir(?string $cacheDir): self
     {
-        $cacheDir = $cacheDir ?? $this->normalizedTemporaryCacheDirectory();
-        if ($cacheDir !== null) {
-            $cacheDir = $this->normalizeCacheDirectory($cacheDir);
-        }
+        $cacheDir = $cacheDir ?? sys_get_temp_dir();
+        $cacheDir = $this->normalizeCacheDirectory($cacheDir);
 
         if ($this->cacheDir === $cacheDir) {
             return $this;
         }
-        assert($cacheDir !== null);
 
         $this->triggerOptionEvent('cache_dir', $cacheDir);
         $this->cacheDir = $cacheDir;
         return $this;
     }
 
-    /**
-     * Get cache dir
-     *
-     * @return string
-     */
-    public function getCacheDir()
+    public function getCacheDir(): string
     {
         return $this->cacheDir;
     }
 
-    /**
-     * Set clear stat cache
-     *
-     * @param  bool $clearStatCache
-     * @return FilesystemOptions
-     */
-    public function setClearStatCache($clearStatCache)
+    public function setClearStatCache(bool $clearStatCache): self
     {
-        $clearStatCache = (bool) $clearStatCache;
+        if ($this->clearStatCache === $clearStatCache) {
+            return $this;
+        }
+
         $this->triggerOptionEvent('clear_stat_cache', $clearStatCache);
         $this->clearStatCache = $clearStatCache;
         return $this;
     }
 
-    /**
-     * Get clear stat cache
-     *
-     * @return bool
-     */
-    public function getClearStatCache()
+    public function getClearStatCache(): bool
     {
         return $this->clearStatCache;
     }
@@ -197,29 +176,26 @@ class FilesystemOptions extends AdapterOptions
     /**
      * Set dir level
      *
-     * @param  int $dirLevel
-     * @return FilesystemOptions
      * @throws Exception\InvalidArgumentException
      */
-    public function setDirLevel($dirLevel)
+    public function setDirLevel(int $dirLevel): self
     {
-        $dirLevel = (int) $dirLevel;
         if ($dirLevel < 0 || $dirLevel > 16) {
             throw new Exception\InvalidArgumentException(
                 "Directory level '{$dirLevel}' must be between 0 and 16"
             );
         }
+
+        if ($this->dirLevel === $dirLevel) {
+            return $this;
+        }
+
         $this->triggerOptionEvent('dir_level', $dirLevel);
         $this->dirLevel = $dirLevel;
         return $this;
     }
 
-    /**
-     * Get dir level
-     *
-     * @return int
-     */
-    public function getDirLevel()
+    public function getDirLevel(): int
     {
         return $this->dirLevel;
     }
@@ -232,9 +208,8 @@ class FilesystemOptions extends AdapterOptions
      * @see setFilePermission
      *
      * @param false|string|int $dirPermission FALSE to disable explicit permission or an octal number
-     * @return FilesystemOptions
      */
-    public function setDirPermission($dirPermission)
+    public function setDirPermission($dirPermission): self
     {
         if ($dirPermission !== false) {
             if (is_string($dirPermission)) {
@@ -251,11 +226,12 @@ class FilesystemOptions extends AdapterOptions
             }
         }
 
-        if ($this->dirPermission !== $dirPermission) {
-            $this->triggerOptionEvent('dir_permission', $dirPermission);
-            $this->dirPermission = $dirPermission;
+        if ($this->dirPermission === $dirPermission) {
+            return $this;
         }
 
+        $this->triggerOptionEvent('dir_permission', $dirPermission);
+        $this->dirPermission = $dirPermission;
         return $this;
     }
 
@@ -269,26 +245,14 @@ class FilesystemOptions extends AdapterOptions
         return $this->dirPermission;
     }
 
-    /**
-     * Set file locking
-     *
-     * @param  bool $fileLocking
-     * @return FilesystemOptions
-     */
-    public function setFileLocking($fileLocking)
+    public function setFileLocking(bool $fileLocking): self
     {
-        $fileLocking = (bool) $fileLocking;
         $this->triggerOptionEvent('file_locking', $fileLocking);
         $this->fileLocking = $fileLocking;
         return $this;
     }
 
-    /**
-     * Get file locking
-     *
-     * @return bool
-     */
-    public function getFileLocking()
+    public function getFileLocking(): bool
     {
         return $this->fileLocking;
     }
@@ -301,9 +265,8 @@ class FilesystemOptions extends AdapterOptions
      * @see setDirPermission
      *
      * @param false|string|int $filePermission FALSE to disable explicit permission or an octal number
-     * @return FilesystemOptions
      */
-    public function setFilePermission($filePermission)
+    public function setFilePermission($filePermission): self
     {
         if ($filePermission !== false) {
             if (is_string($filePermission)) {
@@ -324,10 +287,12 @@ class FilesystemOptions extends AdapterOptions
             }
         }
 
-        if ($this->filePermission !== $filePermission) {
-            $this->triggerOptionEvent('file_permission', $filePermission);
-            $this->filePermission = $filePermission;
+        if ($this->filePermission === $filePermission) {
+            return $this;
         }
+
+        $this->triggerOptionEvent('file_permission', $filePermission);
+        $this->filePermission = $filePermission;
 
         return $this;
     }
@@ -344,9 +309,8 @@ class FilesystemOptions extends AdapterOptions
 
     /**
      * @param string $namespace
-     * @return FilesystemOptions
      */
-    public function setNamespace($namespace)
+    public function setNamespace($namespace): self
     {
         if (strlen($namespace) >= 250) {
             throw new Exception\InvalidArgumentException('Provided namespace is too long.');
@@ -356,74 +320,46 @@ class FilesystemOptions extends AdapterOptions
         return $this;
     }
 
-    /**
-     * Set namespace separator
-     *
-     * @param  string $namespaceSeparator
-     * @return FilesystemOptions
-     */
-    public function setNamespaceSeparator($namespaceSeparator)
+    public function setNamespaceSeparator(string $namespaceSeparator): self
     {
-        $namespaceSeparator = (string) $namespaceSeparator;
         $this->triggerOptionEvent('namespace_separator', $namespaceSeparator);
         $this->namespaceSeparator = $namespaceSeparator;
         return $this;
     }
 
-    /**
-     * Get namespace separator
-     *
-     * @return string
-     */
-    public function getNamespaceSeparator()
+    public function getNamespaceSeparator(): string
     {
         return $this->namespaceSeparator;
     }
 
-    /**
-     * Set no atime
-     *
-     * @param  bool $noAtime
-     * @return FilesystemOptions
-     */
-    public function setNoAtime($noAtime)
+    public function setNoAtime(bool $noAtime): self
     {
-        $noAtime = (bool) $noAtime;
+        if ($this->noAtime === $noAtime) {
+            return $this;
+        }
+
         $this->triggerOptionEvent('no_atime', $noAtime);
         $this->noAtime = $noAtime;
         return $this;
     }
 
-    /**
-     * Get no atime
-     *
-     * @return bool
-     */
-    public function getNoAtime()
+    public function getNoAtime(): bool
     {
         return $this->noAtime;
     }
 
-    /**
-     * Set no ctime
-     *
-     * @param  bool $noCtime
-     * @return FilesystemOptions
-     */
-    public function setNoCtime($noCtime)
+    public function setNoCtime(bool $noCtime): self
     {
-        $noCtime = (bool) $noCtime;
+        if ($this->noCtime === $noCtime) {
+            return $this;
+        }
+
         $this->triggerOptionEvent('no_ctime', $noCtime);
         $this->noCtime = $noCtime;
         return $this;
     }
 
-    /**
-     * Get no ctime
-     *
-     * @return bool
-     */
-    public function getNoCtime()
+    public function getNoCtime(): bool
     {
         return $this->noCtime;
     }
@@ -439,9 +375,8 @@ class FilesystemOptions extends AdapterOptions
      * @see setDirPermission
      *
      * @param false|string|int $umask FALSE to disable umask or an octal number
-     * @return FilesystemOptions
      */
-    public function setUmask($umask)
+    public function setUmask($umask): self
     {
         if ($umask !== false) {
             if (is_string($umask)) {
@@ -461,11 +396,12 @@ class FilesystemOptions extends AdapterOptions
             $umask &= ~0002;
         }
 
-        if ($this->umask !== $umask) {
-            $this->triggerOptionEvent('umask', $umask);
-            $this->umask = $umask;
+        if ($this->umask === $umask) {
+            return $this;
         }
 
+        $this->triggerOptionEvent('umask', $umask);
+        $this->umask = $umask;
         return $this;
     }
 
@@ -481,21 +417,16 @@ class FilesystemOptions extends AdapterOptions
 
     /**
      * Get the suffix for cache files
-     *
-     * @return string
      */
-    public function getSuffix()
+    public function getSuffix(): string
     {
         return $this->suffix;
     }
 
     /**
      * Set the suffix for cache files
-     *
-     * @param string $suffix
-     * @return self
      */
-    public function setSuffix($suffix)
+    public function setSuffix(string $suffix): self
     {
         $this->suffix = $suffix;
         return $this;
@@ -503,29 +434,19 @@ class FilesystemOptions extends AdapterOptions
 
     /**
      * Get the suffix for tag files
-     *
-     * @return string
      */
-    public function getTagSuffix()
+    public function getTagSuffix(): string
     {
         return $this->tagSuffix;
     }
 
     /**
      * Set the suffix for cache files
-     *
-     * @param string $tagSuffix
-     * @return self
      */
-    public function setTagSuffix($tagSuffix)
+    public function setTagSuffix(string $tagSuffix): self
     {
         $this->tagSuffix = $tagSuffix;
         return $this;
-    }
-
-    private function normalizedTemporaryCacheDirectory(): string
-    {
-        return $this->normalizeCacheDirectory(sys_get_temp_dir());
     }
 
     private function normalizeCacheDirectory(string $cacheDir): string
