@@ -15,6 +15,18 @@
             <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
+    <issueHandlers>
+        <InternalClass>
+            <errorLevel type="suppress">
+                <referencedClass name="Laminas\Cache\Storage\Adapter\Filesystem\LocalFilesystemInteraction"/>
+            </errorLevel>
+        </InternalClass>
+        <InternalMethod>
+            <errorLevel type="suppress">
+                <directory name="test"/>
+            </errorLevel>
+        </InternalMethod>
+    </issueHandlers>
     <plugins>
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
     </plugins>

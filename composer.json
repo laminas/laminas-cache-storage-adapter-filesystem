@@ -45,10 +45,7 @@
             "LaminasTest\\Cache\\Storage\\Adapter\\": "test/unit",
             "LaminasTest\\Cache\\Storage\\Adapter\\Composer\\": "test/integration/Composer",
             "LaminasTest\\Cache\\Psr\\": "test/integration/Psr"
-        },
-        "files": [
-            "test/unit/TestAsset/FilesystemDelayedUnlink.php"
-        ]
+        }
     },
     "scripts": {
         "cs-check": "phpcs",
