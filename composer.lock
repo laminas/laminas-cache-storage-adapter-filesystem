@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2c9fb6bad459c7f39197fa9c821fabb5",
+    "content-hash": "d3f3108ac12e8d25e1a747c40828eb58",
     "packages": [],
     "packages-dev": [
         {
@@ -300,16 +300,16 @@
         },
         {
             "name": "composer/package-versions-deprecated",
-            "version": "1.11.99.3",
+            "version": "1.11.99.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/package-versions-deprecated.git",
-                "reference": "fff576ac850c045158a250e7e27666e146e78d18"
+                "reference": "b174585d1fe49ceed21928a945138948cb394600"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/package-versions-deprecated/zipball/fff576ac850c045158a250e7e27666e146e78d18",
-                "reference": "fff576ac850c045158a250e7e27666e146e78d18",
+                "url": "https://api.github.com/repos/composer/package-versions-deprecated/zipball/b174585d1fe49ceed21928a945138948cb394600",
+                "reference": "b174585d1fe49ceed21928a945138948cb394600",
                 "shasum": ""
             },
             "require": {
@@ -353,7 +353,7 @@
             "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)",
             "support": {
                 "issues": "https://github.com/composer/package-versions-deprecated/issues",
-                "source": "https://github.com/composer/package-versions-deprecated/tree/1.11.99.3"
+                "source": "https://github.com/composer/package-versions-deprecated/tree/1.11.99.4"
             },
             "funding": [
                 {
@@ -369,7 +369,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-17T13:49:14+00:00"
+            "time": "2021-09-13T08:41:34+00:00"
         },
         {
             "name": "composer/semver",
@@ -1140,19 +1140,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-cache-storage-adapter-test.git",
-                "reference": "ebb6f9ae8cbb0043e4288026eb816dac0b1eda2c"
+                "reference": "007e3cc5c096f88f421d839023b0a23a6f3b3ece"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-cache-storage-adapter-test/zipball/ebb6f9ae8cbb0043e4288026eb816dac0b1eda2c",
-                "reference": "ebb6f9ae8cbb0043e4288026eb816dac0b1eda2c",
+                "url": "https://api.github.com/repos/laminas/laminas-cache-storage-adapter-test/zipball/007e3cc5c096f88f421d839023b0a23a6f3b3ece",
+                "reference": "007e3cc5c096f88f421d839023b0a23a6f3b3ece",
                 "shasum": ""
             },
             "require": {
                 "cache/integration-tests": "^0.17",
                 "container-interop/container-interop": "^1.2",
                 "laminas/laminas-cache": "^3.0",
-                "php": "^7.3 || ~8.0.0",
+                "php": "^7.3 || ~8.0.0 || ~8.1.0",
                 "phpunit/phpunit": "^9.5"
             },
             "require-dev": {
@@ -1193,7 +1193,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-09-12T19:50:54+00:00"
+            "time": "2021-09-14T04:19:38+00:00"
         },
         {
             "name": "laminas/laminas-coding-standard",
@@ -5672,7 +5672,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.3 || ~8.0.0"
+        "php": "^7.3 || ~8.0.0 || ~8.1.0"
     },
     "platform-dev": {
         "ext-pcntl": "*",

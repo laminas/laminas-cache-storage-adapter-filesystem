@@ -7,7 +7,7 @@
     ],
     "license": "BSD-3-Clause",
     "require": {
-        "php": "^7.3 || ~8.0.0"
+        "php": "^7.3 || ~8.0.0 || ~8.1.0"
     },
     "conflict": {
         "laminas/laminas-cache": "<2.10"

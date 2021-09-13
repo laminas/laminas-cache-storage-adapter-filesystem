@@ -23,6 +23,7 @@ use Laminas\Cache\Storage\OptimizableInterface;
 use Laminas\Cache\Storage\TaggableInterface;
 use Laminas\Cache\Storage\TotalSpaceCapableInterface;
 use Laminas\Stdlib\ErrorHandler;
+use ReturnTypeWillChange;
 use stdClass;
 use Traversable;
 
@@ -520,6 +521,7 @@ final class Filesystem extends AbstractAdapter implements
      *
      * @return FilesystemIterator
      */
+    #[ReturnTypeWillChange]
     public function getIterator()
     {
         $options   = $this->getOptions();
