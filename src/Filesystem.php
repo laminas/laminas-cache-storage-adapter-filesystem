@@ -520,7 +520,7 @@ final class Filesystem extends AbstractAdapter implements
      *
      * @return FilesystemIterator
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         $options   = $this->getOptions();
         $namespace = $options->getNamespace();

@@ -105,15 +105,6 @@
     </UnusedVariable>
   </file>
   <file src="src/FilesystemIterator.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>bool</code>
-    </ImplementedReturnTypeMismatch>
-    <InvalidNullableReturnType occurrences="1">
-      <code>bool</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>$this-&gt;globIterator-&gt;rewind()</code>
-    </NullableReturnStatement>
     <RedundantCastGivenDocblockType occurrences="1">
       <code>(int) $mode</code>
     </RedundantCastGivenDocblockType>
