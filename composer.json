@@ -9,9 +9,6 @@
     "require": {
         "php": "^7.3 || ~8.0.0 || ~8.1.0"
     },
-    "conflict": {
-        "laminas/laminas-cache": "<2.10"
-    },
     "provide": {
         "laminas/laminas-cache-storage-implementation": "1.0"
     },
