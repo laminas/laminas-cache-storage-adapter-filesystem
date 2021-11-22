@@ -14,9 +14,13 @@ final class DelayedFilesystemInteraction implements FilesystemInteractionInterfa
     /** @var FilesystemInteractionInterface */
     private $filesystem;
 
-    /** @var int */
+    /**
+     * @var int
+     * @psalm-var positive-int
+     */
     private $delay;
 
+    /** @psalm-param positive-int $delay */
     public function __construct(int $delay)
     {
         $this->filesystem = new LocalFilesystemInteraction();
