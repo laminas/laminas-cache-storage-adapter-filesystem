@@ -7,7 +7,8 @@
     ],
     "license": "BSD-3-Clause",
     "require": {
-        "php": "^7.3 || ~8.0.0 || ~8.1.0"
+        "php": "^7.3 || ~8.0.0 || ~8.1.0",
+        "laminas/laminas-cache":  "^3.0"
     },
     "provide": {
         "laminas/laminas-cache-storage-implementation": "1.0"
@@ -15,7 +16,6 @@
     "require-dev": {
         "ext-pcntl": "*",
         "ext-posix": "*",
-        "laminas/laminas-cache": "^3.0 || 3.0.x-dev",
         "laminas/laminas-cache-storage-adapter-benchmark": "^1.0",
         "laminas/laminas-cache-storage-adapter-test": "^2.0 || 2.0.x-dev",
         "laminas/laminas-coding-standard": "^2.3",
