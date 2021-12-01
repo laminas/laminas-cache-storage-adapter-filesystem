@@ -89,6 +89,16 @@ final class FilesystemTest extends AbstractCommonAdapterTest
         parent::tearDown();
     }
 
+    public function testFileSystemeOptionIsUpdatedWhenFileSystemeOptionIsChange(): void
+    {
+        $storage = new Filesystem();
+        $options = new FilesystemOptions();
+        $storage->setOptions($options);
+        $options->setCacheDir($this->tmpCacheDir);
+
+        $this->assertSame($this->tmpCacheDir, $storage->getOptions()->getCacheDir());
+    }
+
     public function testSetNoAtimeChangesAtimeOfMetadataCapability(): void
     {
         $capabilities = $this->storage->getCapabilities();

@@ -106,7 +106,8 @@ final class Filesystem extends AbstractAdapter implements
 
         // clean total space buffer on change cache_dir
         $events     = $this->getEventManager();
-        $handle     = null;
+        $handle     = function (): void {
+        };
         $totalSpace = &$this->totalSpace;
         $callback   = function ($event) use (&$events, &$handle, &$totalSpace) {
             $params = $event->getParams();
