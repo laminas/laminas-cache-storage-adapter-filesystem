@@ -17,27 +17,27 @@ final class FilesystemIterator implements IteratorInterface
     /**
      * The Filesystem storage instance
      */
-    protected Filesystem $storage;
+    private Filesystem $storage;
 
     /**
      * The iterator mode
      */
-    protected int $mode = IteratorInterface::CURRENT_AS_KEY;
+    private int $mode = IteratorInterface::CURRENT_AS_KEY;
 
     /**
      * The GlobIterator instance
      */
-    protected GlobIterator $globIterator;
+    private GlobIterator $globIterator;
 
     /**
      * The namespace sprefix
      */
-    protected string $prefix;
+    private string $prefix;
 
     /**
      * String length of namespace prefix
      */
-    protected int $prefixLength;
+    private int $prefixLength;
 
     /**
      * Constructor

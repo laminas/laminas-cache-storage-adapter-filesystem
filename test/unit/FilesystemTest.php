@@ -39,9 +39,9 @@ use const SIGTERM;
  */
 final class FilesystemTest extends AbstractCommonAdapterTest
 {
-    protected string $tmpCacheDir;
+    private string $tmpCacheDir;
 
-    protected int $umask;
+    private int $umask;
 
     protected function setUp(): void
     {
