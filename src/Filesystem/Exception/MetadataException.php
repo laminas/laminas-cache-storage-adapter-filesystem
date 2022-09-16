@@ -17,8 +17,7 @@ final class MetadataException extends RuntimeException
     public const METADATA_MTIME    = Filesystem::METADATA_MTIME;
     public const METADATA_FILESIZE = Filesystem::METADATA_FILESIZE;
 
-    /** @var ErrorException */
-    private $error;
+    private ErrorException $error;
 
     /**
      * @psalm-param MetadataException::METADATA_* $metadata

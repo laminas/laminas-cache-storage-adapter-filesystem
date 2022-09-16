@@ -13,8 +13,7 @@ final class AdapterPluginManagerDelegatorFactoryTest extends TestCase
 {
     use PluginManagerDelegatorFactoryTestTrait;
 
-    /** @var AdapterPluginManagerDelegatorFactory */
-    private $delegator;
+    private AdapterPluginManagerDelegatorFactory $delegator;
 
     public function getCommonAdapterNamesProvider(): iterable
     {

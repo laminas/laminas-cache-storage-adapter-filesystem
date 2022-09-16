@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Laminas\Cache\Storage\Adapter;
 
 use GlobIterator;
+use Laminas\Cache\Storage\Adapter\Filesystem;
 use Laminas\Cache\Storage\IteratorInterface;
 use ReturnTypeWillChange;
 
@@ -15,38 +16,28 @@ final class FilesystemIterator implements IteratorInterface
 {
     /**
      * The Filesystem storage instance
-     *
-     * @var Filesystem
      */
-    protected $storage;
+    private Filesystem $storage;
 
     /**
      * The iterator mode
-     *
-     * @var int
      */
-    protected $mode = IteratorInterface::CURRENT_AS_KEY;
+    private int $mode = IteratorInterface::CURRENT_AS_KEY;
 
     /**
      * The GlobIterator instance
-     *
-     * @var GlobIterator
      */
-    protected $globIterator;
+    private GlobIterator $globIterator;
 
     /**
      * The namespace sprefix
-     *
-     * @var string
      */
-    protected $prefix;
+    private string $prefix;
 
     /**
      * String length of namespace prefix
-     *
-     * @var int
      */
-    protected $prefixLength;
+    private int $prefixLength;
 
     /**
      * Constructor
