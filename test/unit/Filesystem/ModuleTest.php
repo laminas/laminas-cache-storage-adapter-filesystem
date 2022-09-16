@@ -10,8 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 final class ModuleTest extends TestCase
 {
-    /** @var Module */
-    private $module;
+    private Module $module;
 
     protected function setUp(): void
     {

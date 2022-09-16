@@ -80,20 +80,15 @@ final class Filesystem extends AbstractAdapter implements
     /**
      * An identity for the last filespec
      * (cache directory + namespace prefix + key + directory level)
-     *
-     * @var string
      */
-    private $lastFileSpecId = '';
+    private string $lastFileSpecId = '';
 
     /**
      * The last used filespec
-     *
-     * @var string
      */
-    private $lastFileSpec = '';
+    private string $lastFileSpec = '';
 
-    /** @var FilesystemInteractionInterface */
-    private $filesystem;
+    private FilesystemInteractionInterface $filesystem;
 
     /**
      * @param  null|array|Traversable|AdapterOptions $options
@@ -106,10 +101,10 @@ final class Filesystem extends AbstractAdapter implements
 
         // clean total space buffer on change cache_dir
         $events     = $this->getEventManager();
-        $handle     = function (): void {
+        $handle     = static function (): void {
         };
         $totalSpace = &$this->totalSpace;
-        $callback   = function ($event) use (&$events, &$handle, &$totalSpace) {
+        $callback   = static function ($event) use (&$events, &$handle, &$totalSpace): void {
             $params = $event->getParams();
             if (isset($params['cache_dir'])) {
                 $totalSpace = null;
@@ -1298,7 +1293,7 @@ final class Filesystem extends AbstractAdapter implements
             );
 
             // update capabilities on change options
-            $this->getEventManager()->attach('option', function ($event) use ($capabilities, $marker) {
+            $this->getEventManager()->attach('option', static function ($event) use ($capabilities, $marker): void {
                 $params = $event->getParams();
 
                 if (isset($params['namespace_separator'])) {

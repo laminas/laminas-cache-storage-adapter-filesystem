@@ -10,6 +10,7 @@ use Laminas\Cache\Storage\Plugin\Serializer;
 use Laminas\Cache\Storage\StorageInterface;
 use LaminasTest\Cache\Storage\Adapter\AbstractSimpleCacheIntegrationTest;
 
+use function assert;
 use function getenv;
 use function mkdir;
 use function sys_get_temp_dir;
@@ -25,8 +26,7 @@ class FilesystemIntegrationTest extends AbstractSimpleCacheIntegrationTest
     /** @var int */
     protected $umask;
 
-    /** @var FilesystemOptions */
-    private $options;
+    private ?FilesystemOptions $options = null;
 
     protected function setUp(): void
     {
@@ -51,6 +51,8 @@ class FilesystemIntegrationTest extends AbstractSimpleCacheIntegrationTest
             umask($this->umask);
             $this->fail('Umask was not reset');
         }
+
+        assert($this->options instanceof FilesystemOptions);
 
         if ($this->options->getCacheDir() !== $this->tmpCacheDir) {
             $this->options->setCacheDir($this->tmpCacheDir);

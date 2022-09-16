@@ -7,6 +7,7 @@ namespace Laminas\Cache\Storage\Adapter;
 use Laminas\Cache\Exception;
 use Traversable;
 
+use function assert;
 use function is_dir;
 use function is_readable;
 use function is_string;
@@ -28,23 +29,19 @@ final class FilesystemOptions extends AdapterOptions
     /**
      * Directory to store cache files
      *
-     * @var string The cache directory
+     * @var string|null The cache directory
      */
-    private $cacheDir;
+    private ?string $cacheDir = null;
 
     /**
      * Call clearstatcache enabled?
-     *
-     * @var bool
      */
-    private $clearStatCache = true;
+    private bool $clearStatCache = true;
 
     /**
      * How much sub-directaries should be created?
-     *
-     * @var int
      */
-    private $dirLevel = 1;
+    private int $dirLevel = 1;
 
     /**
      * Permission creating new directories
@@ -55,10 +52,8 @@ final class FilesystemOptions extends AdapterOptions
 
     /**
      * Lock files on writing
-     *
-     * @var bool
      */
-    private $fileLocking = true;
+    private bool $fileLocking = true;
 
     /**
      * Permission creating new files
@@ -76,24 +71,18 @@ final class FilesystemOptions extends AdapterOptions
 
     /**
      * Namespace separator
-     *
-     * @var string
      */
-    private $namespaceSeparator = '-';
+    private string $namespaceSeparator = '-';
 
     /**
      * Don't get 'fileatime' as 'atime' on metadata
-     *
-     * @var bool
      */
-    private $noAtime = true;
+    private bool $noAtime = true;
 
     /**
      * Don't get 'filectime' as 'ctime' on metadata
-     *
-     * @var bool
      */
-    private $noCtime = true;
+    private bool $noCtime = true;
 
     /**
      * Umask to create files and directories
@@ -104,17 +93,13 @@ final class FilesystemOptions extends AdapterOptions
 
     /**
      * Suffix for cache files
-     *
-     * @var string
      */
-    private $suffix = 'dat';
+    private string $suffix = 'dat';
 
     /**
      * Suffix for tag files
-     *
-     * @var string
      */
-    private $tagSuffix = 'tag';
+    private string $tagSuffix = 'tag';
 
     /**
      * @param  array|Traversable|null $options
@@ -137,8 +122,8 @@ final class FilesystemOptions extends AdapterOptions
      */
     public function setCacheDir(?string $cacheDir): self
     {
-        $cacheDir = $cacheDir ?? sys_get_temp_dir();
-        $cacheDir = $this->normalizeCacheDirectory($cacheDir);
+        $cacheDir ??= sys_get_temp_dir();
+        $cacheDir   = $this->normalizeCacheDirectory($cacheDir);
 
         if ($this->cacheDir === $cacheDir) {
             return $this;
@@ -151,6 +136,8 @@ final class FilesystemOptions extends AdapterOptions
 
     public function getCacheDir(): string
     {
+        assert(is_string($this->cacheDir));
+
         return $this->cacheDir;
     }
 

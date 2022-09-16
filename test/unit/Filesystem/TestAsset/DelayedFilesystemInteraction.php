@@ -11,14 +11,10 @@ use function usleep;
 
 final class DelayedFilesystemInteraction implements FilesystemInteractionInterface
 {
-    /** @var FilesystemInteractionInterface */
-    private $filesystem;
+    private FilesystemInteractionInterface $filesystem;
 
-    /**
-     * @var int
-     * @psalm-var positive-int
-     */
-    private $delay;
+    /** @psalm-var positive-int */
+    private int $delay;
 
     /** @psalm-param positive-int $delay */
     public function __construct(int $delay)
