@@ -1527,12 +1527,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-cache-storage-adapter-test.git",
-                "reference": "b0d480a6c16b1aa74b28569aeebe59274010bb11"
+                "reference": "ec27e88dd4dd0ea483730505ff0f8c8bafdbdf7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-cache-storage-adapter-test/zipball/b0d480a6c16b1aa74b28569aeebe59274010bb11",
-                "reference": "b0d480a6c16b1aa74b28569aeebe59274010bb11",
+                "url": "https://api.github.com/repos/laminas/laminas-cache-storage-adapter-test/zipball/ec27e88dd4dd0ea483730505ff0f8c8bafdbdf7b",
+                "reference": "ec27e88dd4dd0ea483730505ff0f8c8bafdbdf7b",
                 "shasum": ""
             },
             "require": {
@@ -1579,7 +1579,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-10-15T00:31:12+00:00"
+            "time": "2022-10-28T00:19:39+00:00"
         },
         {
             "name": "laminas/laminas-coding-standard",
