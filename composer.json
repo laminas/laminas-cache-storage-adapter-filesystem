@@ -16,7 +16,7 @@
     "require-dev": {
         "ext-pcntl": "*",
         "ext-posix": "*",
-        "laminas/laminas-cache-storage-adapter-benchmark": "^1.0",
+        "laminas/laminas-cache-storage-adapter-benchmark": "^1.1.0",
         "laminas/laminas-cache-storage-adapter-test": "^2.0 || 2.0.x-dev",
         "laminas/laminas-coding-standard": "~2.4",
         "laminas/laminas-serializer": "^2.14.0",
