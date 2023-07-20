@@ -24,6 +24,7 @@ use function pcntl_fork;
 use function posix_getpid;
 use function posix_kill;
 use function sleep;
+use function sort;
 use function str_repeat;
 use function substr;
 use function sys_get_temp_dir;
@@ -327,14 +328,15 @@ final class FilesystemTest extends AbstractCommonAdapterTest
         $this->storage->setItems([
             'a_key' => 'a_value',
             'b_key' => 'b_value',
-            'other' => 'other',
         ]);
+        //Set other item with a higher ttl
+        $this->options->setTtl(5);
+        $this->storage->setItem('other', 'other');
 
-        // wait TTL seconds and touch item other so this item will not be deleted by clearExpired
+        // wait TTL seconds for the first 2 items to expire. Item other will not be deleted by clearExpired
         // and can be used for testing the child process
         $this->waitForFullSecond();
         sleep(2);
-        $this->storage->touchItem('other');
 
         $pidChild = pcntl_fork();
         if ($pidChild === -1) {
@@ -425,5 +427,67 @@ final class FilesystemTest extends AbstractCommonAdapterTest
 
         $storage = new Filesystem($options);
         $storage->getCapabilities();
+    }
+
+    public function testFileDeletedWhenExpired(): void
+    {
+        $this->options->setTtl(1);
+        $this->storage->setItems([
+            'key1' => 1,
+            'key2' => 2,
+            'key3' => 3,
+        ]);
+        $this->options->setTtl(4);
+        $this->storage->setItem('key4', 4);
+
+        $expectedResult = ['key1', 'key2', 'key3', 'key4'];
+        $result         = $this->storage->hasItems(['key1', 'key2', 'key3', 'key4']);
+        sort($result);
+        $this->assertEquals($expectedResult, $result);
+        //wait for cache to expire
+        sleep(2);
+        $this->assertFalse($this->storage->hasItem('key1'));
+        $this->assertFalse($this->storage->removeItem('key1'));
+        $this->assertNull($this->storage->getItem('key2'));
+        $this->assertFalse($this->storage->removeItem('key2'));
+        $this->assertEquals(['key4' => 4], $this->storage->getItems(['key3', 'key4']));
+        $this->assertFalse($this->storage->removeItem('key3'));
+        $this->assertTrue($this->storage->removeItem('key4'));
+    }
+
+    public function testFileNotDeletedWhenExpiredStillInvalidTriggersEventWithoutThrowing(): void
+    {
+        $this->options->setTtl(2);
+        $this->storage->setItems([
+            'key1' => 1,
+            'key2' => 2,
+            'key3' => 3,
+        ]);
+        $this->options->setTtl(4);
+        $this->storage->setItem('key4', 4);
+
+        $expectedResult = ['key1', 'key2', 'key3', 'key4'];
+        $result         = $this->storage->hasItems(['key1', 'key2', 'key3', 'key4']);
+        sort($result);
+        $this->assertEquals($expectedResult, $result);
+
+        $dirs = glob($this->tmpCacheDir . '/*');
+
+        if (count($dirs) === 0) {
+            $this->fail('Could not find cache dir');
+        }
+
+        foreach ($dirs as $dir) {
+            chmod($dir, 0500); //make directory rx, unlink should fail
+        }
+        //wait for cache to expire
+        sleep(2);
+
+        $this->assertFalse($this->storage->hasItem('key1'));
+        $this->assertNull($this->storage->getItem('key2'));
+        $this->assertEquals(['key4' => 4], $this->storage->getItems(['key3', 'key4']));
+        foreach ($dirs as $dir) {
+            chmod($dir, 0700); //set dir back to writable for tearDown
+        }
     }
 }

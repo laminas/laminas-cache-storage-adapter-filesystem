@@ -24,7 +24,7 @@ use const PHP_OS;
 
 final class FilesystemOptions extends AdapterOptions
 {
-    public const KEY_PATTERN = '/^[a-z0-9_\+\-]*$/Di';
+    public const KEY_PATTERN = '/^[a-z0-9_\+\-\.]*$/Di';
 
     /**
      * Directory to store cache files
