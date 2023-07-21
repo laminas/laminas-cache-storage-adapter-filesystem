@@ -679,7 +679,7 @@ final class Filesystem extends AbstractAdapter implements
         while ($keys) {
             // LOCK_NB if more than one items have to read
             $nonBlocking = count($keys) > 1;
-            $wouldblock  = null;
+            $wouldBlock  = null;
             $now         = time();
             // read items
             foreach ($keys as $i => $key) {
@@ -699,7 +699,7 @@ final class Filesystem extends AbstractAdapter implements
                     continue;
                 }
 
-                if ($nonBlocking && $wouldblock) {
+                if ($nonBlocking && $wouldBlock) {
                     continue;
                 } else {
                     unset($keys[$i]);
@@ -989,14 +989,14 @@ final class Filesystem extends AbstractAdapter implements
         $valueWithExpiration = $this->setExpiration((string) $value);
 
         // write data in non-blocking mode
-        $this->putFileContent($file, (string) $valueWithExpiration, true, $wouldblock);
+        $this->putFileContent($file, $valueWithExpiration, true, $wouldblock);
 
         // delete related tag file (if present)
         $this->filesystem->delete($this->formatTagFilename($filespec));
 
         // Retry writing data in blocking mode if it was blocked before
         if ($wouldblock) {
-            $this->putFileContent($file, (string) $valueWithExpiration);
+            $this->putFileContent($file, $valueWithExpiration);
         }
 
         return true;
@@ -1031,7 +1031,7 @@ final class Filesystem extends AbstractAdapter implements
 
             foreach ($contents as $file => &$content) {
                 $wouldblock = null;
-                $this->putFileContent($file, (string) $content, $nonBlocking, $wouldblock);
+                $this->putFileContent($file, $content, $nonBlocking, $wouldblock);
                 if (! $nonBlocking || ! $wouldblock) {
                     unset($contents[$file]);
                 }
@@ -1145,7 +1145,7 @@ final class Filesystem extends AbstractAdapter implements
      */
     protected function internalTouchItem(&$normalizedKey): bool
     {
-        $data = $this->internalGetItem($normalizedKey, $success);
+        $data = (string) $this->internalGetItem($normalizedKey, $success);
 
         if ($success === false) {
             return false;
@@ -1587,8 +1587,8 @@ final class Filesystem extends AbstractAdapter implements
             $eventRs        = $this->getEventManager()->triggerEvent($exceptionEvent);
 
             return $eventRs->stopped()
-                ? $eventRs->last()
-                : $exceptionEvent->getResult();
+                ? (bool) $eventRs->last()
+                : (bool) $exceptionEvent->getResult();
         }
 
         return $expired;

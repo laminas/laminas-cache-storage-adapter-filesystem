@@ -95,17 +95,21 @@ class FilesystemIntegrationTest extends AbstractCacheItemPoolIntegrationTest
             $this->markTestSkipped($this->skippedTests[__FUNCTION__]);
         }
 
-        $item = $this->cache->getItem('test_ttl_null');
-        $item->set('data');
-        $this->cache->save($item);
+        assert($this->options instanceof FilesystemOptions);
 
         $cacheDir = $this->tmpCacheDir;
-
-        // Use a new pool instance to ensure that we don't hit any caches
-        $pool = $this->createCachePool();
+        $pool1    = $this->createCachePool();
         $this->options->setCacheDir($cacheDir);
 
-        $item = $pool->getItem('test_ttl_null');
+        $item = $pool1->getItem('test_ttl_null');
+        $item->set('data');
+        $pool1->save($item);
+
+        // Use a new pool instance to ensure that we don't hit any caches
+        $pool2 = $this->createCachePool();
+        $this->options->setCacheDir($cacheDir);
+
+        $item = $pool2->getItem('test_ttl_null');
 
         self::assertTrue($item->isHit(), 'Cache should have retrieved the items');
         self::assertEquals('data', $item->get());
@@ -120,25 +124,26 @@ class FilesystemIntegrationTest extends AbstractCacheItemPoolIntegrationTest
             $this->markTestSkipped($this->skippedTests[__FUNCTION__]);
         }
 
-        $this->prepareDeferredSaveWithoutCommit();
+        assert($this->options instanceof FilesystemOptions);
+
         $cacheDir = $this->tmpCacheDir;
+        $pool1    = $this->createCachePool();
+        $this->options->setCacheDir($cacheDir);
+        $item = $pool1->getItem('key');
+        $item->set('4711');
+        $pool1->saveDeferred($item);
+        unset($pool1);
+
         gc_collect_cycles();
 
-        $cache = $this->createCachePool();
+        $pool2 = $this->createCachePool();
         $this->options->setCacheDir($cacheDir);
 
+        $item = $pool2->getItem('key');
         self::assertTrue(
-            $cache->getItem('key')->isHit(),
+            $item->isHit(),
             'A deferred item should automatically be committed on CachePool::__destruct().'
         );
-    }
-
-    private function prepareDeferredSaveWithoutCommit(): void
-    {
-        $cache       = $this->cache;
-        $this->cache = null;
-        $item        = $cache->getItem('key');
-        $item->set('4711');
-        $cache->saveDeferred($item);
+        self::assertEquals('4711', $item->get());
     }
 }

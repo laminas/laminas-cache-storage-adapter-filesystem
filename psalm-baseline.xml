@@ -126,6 +126,19 @@
       <code>$cacheDir</code>
     </PossiblyFalseArgument>
   </file>
+  <file src="test/integration/Psr/CacheItemPool/FilesystemIntegrationTest.php">
+    <PossiblyFalseArgument occurrences="1">
+      <code>$cacheDir</code>
+    </PossiblyFalseArgument>
+    <MixedArrayAccess occurrences="2">
+      <code>$this->skippedTests[__FUNCTION__]</code>
+      <code>$this->skippedTests[__FUNCTION__]</code>
+    </MixedArrayAccess>
+    <MixedArgument occurrences="2">
+      <code>$this->skippedTests[__FUNCTION__]</code>
+      <code>$this->skippedTests[__FUNCTION__]</code>
+    </MixedArgument>
+  </file>
   <file src="test/unit/FilesystemTest.php">
     <MixedOperand occurrences="2">
       <code>$meta['filespec']</code>
