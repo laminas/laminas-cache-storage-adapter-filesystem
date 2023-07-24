@@ -55,6 +55,11 @@ final class DelayedFilesystemInteraction implements FilesystemInteractionInterfa
         return $this->filesystem->read($file, $lock, $block, $wouldBlock);
     }
 
+    public function expired(string $file): bool
+    {
+        return $this->filesystem->expired($file);
+    }
+
     public function exists(string $file): bool
     {
         return $this->filesystem->exists($file);

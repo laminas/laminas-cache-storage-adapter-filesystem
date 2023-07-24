@@ -35,6 +35,8 @@ interface FilesystemInteractionInterface
 
     public function exists(string $file): bool;
 
+    public function expired(string $file): bool;
+
     /**
      * @throws MetadataException
      */

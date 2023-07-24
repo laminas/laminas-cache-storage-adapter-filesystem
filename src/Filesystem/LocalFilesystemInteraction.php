@@ -16,6 +16,7 @@ use function decoct;
 use function disk_free_space;
 use function disk_total_space;
 use function fclose;
+use function fgets;
 use function file_exists;
 use function file_get_contents;
 use function file_put_contents;
@@ -29,9 +30,11 @@ use function ftruncate;
 use function fwrite;
 use function is_dir;
 use function mkdir;
+use function preg_match;
 use function sprintf;
 use function stream_get_contents;
 use function strlen;
+use function time;
 use function touch;
 use function umask;
 use function unlink;
@@ -218,6 +221,35 @@ final class LocalFilesystemInteraction implements FilesystemInteractionInterface
         ErrorHandler::stop();
 
         return $res;
+    }
+
+    public function expired(string $file): bool
+    {
+        ErrorHandler::start();
+
+        $fp = fopen($file, 'rb');
+        if ($fp === false) {
+            $err = ErrorHandler::stop();
+            throw new RuntimeException("Error opening file '{$file}'", 0, $err);
+        }
+
+        $expiration = fgets($fp);
+
+        if ($expiration && preg_match('/^##(.*)##\n$/', $expiration, $matches)) {
+            $expiresAt = (int) $matches[1];
+            if ($expiresAt && time() >= $expiresAt) {
+                fclose($fp);
+
+                ErrorHandler::stop();
+                $this->delete($file);
+
+                return true;
+            }
+        }
+
+        ErrorHandler::stop();
+
+        return false;
     }
 
     public function exists(string $file): bool
