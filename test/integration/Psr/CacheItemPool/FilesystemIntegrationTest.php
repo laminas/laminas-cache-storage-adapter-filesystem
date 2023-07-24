@@ -13,6 +13,7 @@ use LaminasTest\Cache\Storage\Adapter\AbstractCacheItemPoolIntegrationTest;
 use function assert;
 use function gc_collect_cycles;
 use function getenv;
+use function is_string;
 use function mkdir;
 use function sys_get_temp_dir;
 use function tempnam;
@@ -66,6 +67,8 @@ class FilesystemIntegrationTest extends AbstractCacheItemPoolIntegrationTest
             $cacheDir = sys_get_temp_dir();
         }
 
+        assert(is_string($cacheDir));
+
         $this->tmpCacheDir = tempnam($cacheDir, 'laminas_cache_test_');
 
         if (! $this->tmpCacheDir) {
@@ -86,9 +89,6 @@ class FilesystemIntegrationTest extends AbstractCacheItemPoolIntegrationTest
         return $storage;
     }
 
-    /**
-     * Overwrite parent test to save cache directory when creating new cache pool
-     */
     public function testSaveWithoutExpire(): void
     {
         if (isset($this->skippedTests[__FUNCTION__])) {
@@ -115,9 +115,6 @@ class FilesystemIntegrationTest extends AbstractCacheItemPoolIntegrationTest
         self::assertEquals('data', $item->get());
     }
 
-    /**
-     * Overwrite parent test to save cache directory when creating new pool
-     */
     public function testDeferredSaveWithoutCommit(): void
     {
         if (isset($this->skippedTests[__FUNCTION__])) {

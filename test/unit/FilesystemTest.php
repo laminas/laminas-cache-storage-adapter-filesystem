@@ -455,7 +455,7 @@ final class FilesystemTest extends AbstractCommonAdapterTest
         $this->assertTrue($this->storage->removeItem('key4'));
     }
 
-    public function testFileNotDeletedWhenExpiredStillInvalidTriggersEventWithoutThrowing(): void
+    public function testFileNotDeletedWhenExpiredTriggersEvent(): void
     {
         $this->options->setTtl(2);
         $this->storage->setItems([
@@ -483,8 +483,15 @@ final class FilesystemTest extends AbstractCommonAdapterTest
         //wait for cache to expire
         sleep(2);
 
+        $plugin  = new ExceptionHandler();
+        $options = new PluginOptions(['throw_exceptions' => false]);
+        $plugin->setOptions($options);
+        $this->storage->addPlugin($plugin);
+
         $this->assertFalse($this->storage->hasItem('key1'));
-        $this->assertNull($this->storage->getItem('key2'));
+        $item = $this->storage->getItem('key2', $success);
+        $this->assertNull($item);
+        $this->assertFalse($success);
         $this->assertEquals(['key4' => 4], $this->storage->getItems(['key3', 'key4']));
         foreach ($dirs as $dir) {
             chmod($dir, 0700); //set dir back to writable for tearDown

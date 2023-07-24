@@ -19,7 +19,6 @@ use Laminas\Cache\Storage\Capabilities;
 use Laminas\Cache\Storage\ClearByNamespaceInterface;
 use Laminas\Cache\Storage\ClearByPrefixInterface;
 use Laminas\Cache\Storage\ClearExpiredInterface;
-use Laminas\Cache\Storage\ExceptionEvent;
 use Laminas\Cache\Storage\FlushableInterface;
 use Laminas\Cache\Storage\IterableInterface;
 use Laminas\Cache\Storage\OptimizableInterface;
@@ -96,7 +95,7 @@ final class Filesystem extends AbstractAdapter implements
     private FilesystemInteractionInterface $filesystem;
 
     /**
-     * @param  null|array|Traversable|AdapterOptions $options
+     * @param null|array|Traversable|AdapterOptions $options
      * @throws Exception\ExceptionInterface
      */
     public function __construct($options = null, ?FilesystemInteractionInterface $filesystem = null)
@@ -392,7 +391,7 @@ final class Filesystem extends AbstractAdapter implements
      * Set tags to an item by given key.
      * An empty array will remove all tags.
      *
-     * @param string   $key
+     * @param string $key
      * @param string[] $tags
      */
     public function setTags($key, array $tags): bool
@@ -445,7 +444,7 @@ final class Filesystem extends AbstractAdapter implements
      * else all given tags must match.
      *
      * @param string[] $tags
-     * @param  bool  $disjunction
+     * @param bool $disjunction
      */
     public function clearByTags(array $tags, $disjunction = false): bool
     {
@@ -575,9 +574,9 @@ final class Filesystem extends AbstractAdapter implements
     /**
      * Get an item.
      *
-     * @param  string  $key
-     * @param  bool $success
-     * @param  mixed   $casToken
+     * @param string $key
+     * @param bool $success
+     * @param mixed $casToken
      * @return mixed Data on success, null on failure
      * @throws Exception\ExceptionInterface
      * @triggers getItem.pre(PreEvent)
@@ -604,7 +603,7 @@ final class Filesystem extends AbstractAdapter implements
     /**
      * Get multiple items.
      *
-     * @param  array $keys
+     * @param array $keys
      * @return array Associative array of keys and values
      * @throws Exception\ExceptionInterface
      * @triggers getItems.pre(PreEvent)
@@ -624,14 +623,14 @@ final class Filesystem extends AbstractAdapter implements
     /**
      * Internal method to get an item.
      *
-     * @param  string  $normalizedKey
-     * @param  bool $success
-     * @param  mixed   $casToken
-     * @return null|mixed Data on success, null on failure
+     * @param string $normalizedKey
+     * @param bool $success
+     * @param mixed $casToken
+     * @return null|string Data on success, null on failure
      * @throws Exception\ExceptionInterface
      * @throws BaseException
      */
-    protected function internalGetItem(&$normalizedKey, &$success = null, &$casToken = null)
+    protected function internalGetItem(&$normalizedKey, &$success = null, &$casToken = null): ?string
     {
         try {
             $filespec = $this->formatFilename($this->getFileSpec($normalizedKey));
@@ -645,7 +644,7 @@ final class Filesystem extends AbstractAdapter implements
             $expiration = $this->getExpiration($data);
 
             if ($expiration && time() >= $expiration) {
-                $this->deleteExpiredFile($filespec);
+                $this->internalRemoveItem($normalizedKey);
                 $success = false;
                 return null;
             }
@@ -668,7 +667,7 @@ final class Filesystem extends AbstractAdapter implements
     /**
      * Internal method to get multiple items.
      *
-     * @param  array $normalizedKeys
+     * @param array $normalizedKeys
      * @return array Associative array of keys and values
      * @throws Exception\ExceptionInterface
      */
@@ -694,7 +693,7 @@ final class Filesystem extends AbstractAdapter implements
 
                 $expiration = $this->getExpiration($data);
                 if ($expiration && $now >= $expiration) {
-                    $this->deleteExpiredFile($filespec);
+                    $this->removeItem($key);
                     unset($keys[$i]);
                     continue;
                 }
@@ -715,7 +714,7 @@ final class Filesystem extends AbstractAdapter implements
     /**
      * Test if an item exists.
      *
-     * @param  string $key
+     * @param string $key
      * @throws Exception\ExceptionInterface
      * @triggers hasItem.pre(PreEvent)
      * @triggers hasItem.post(PostEvent)
@@ -734,7 +733,7 @@ final class Filesystem extends AbstractAdapter implements
     /**
      * Test multiple items.
      *
-     * @param  array $keys
+     * @param array $keys
      * @return array Array of found keys
      * @throws Exception\ExceptionInterface
      * @triggers hasItems.pre(PreEvent)
@@ -754,7 +753,7 @@ final class Filesystem extends AbstractAdapter implements
     /**
      * Internal method to test if an item exists.
      *
-     * @param  string $normalizedKey
+     * @param string $normalizedKey
      * @throws Exception\ExceptionInterface
      */
     protected function internalHasItem(&$normalizedKey): bool
@@ -857,8 +856,8 @@ final class Filesystem extends AbstractAdapter implements
     /**
      * Store an item.
      *
-     * @param  string $key
-     * @param  mixed  $value
+     * @param string $key
+     * @param mixed $value
      * @throws Exception\ExceptionInterface
      * @triggers setItem.pre(PreEvent)
      * @triggers setItem.post(PostEvent)
@@ -876,7 +875,7 @@ final class Filesystem extends AbstractAdapter implements
     /**
      * Store multiple items.
      *
-     * @param  array $keyValuePairs
+     * @param array $keyValuePairs
      * @return array Array of not stored keys
      * @throws Exception\ExceptionInterface
      * @triggers setItems.pre(PreEvent)
@@ -896,8 +895,8 @@ final class Filesystem extends AbstractAdapter implements
     /**
      * Add an item.
      *
-     * @param  string $key
-     * @param  mixed  $value
+     * @param string $key
+     * @param mixed $value
      * @throws Exception\ExceptionInterface
      * @triggers addItem.pre(PreEvent)
      * @triggers addItem.post(PostEvent)
@@ -916,7 +915,7 @@ final class Filesystem extends AbstractAdapter implements
     /**
      * Add multiple items.
      *
-     * @param  array $keyValuePairs
+     * @param array $keyValuePairs
      * @return array Array of not stored keys
      * @throws Exception\ExceptionInterface
      * @triggers addItems.pre(PreEvent)
@@ -936,8 +935,8 @@ final class Filesystem extends AbstractAdapter implements
     /**
      * Replace an existing item.
      *
-     * @param  string $key
-     * @param  mixed  $value
+     * @param string $key
+     * @param mixed $value
      * @throws Exception\ExceptionInterface
      * @triggers replaceItem.pre(PreEvent)
      * @triggers replaceItem.post(PostEvent)
@@ -956,7 +955,7 @@ final class Filesystem extends AbstractAdapter implements
     /**
      * Replace multiple existing items.
      *
-     * @param  array $keyValuePairs
+     * @param array $keyValuePairs
      * @return array Array of not stored keys
      * @throws Exception\ExceptionInterface
      * @triggers replaceItems.pre(PreEvent)
@@ -976,8 +975,8 @@ final class Filesystem extends AbstractAdapter implements
     /**
      * Internal method to store an item.
      *
-     * @param  string $normalizedKey
-     * @param  mixed  $value
+     * @param string $normalizedKey
+     * @param mixed $value
      * @throws Exception\ExceptionInterface
      */
     protected function internalSetItem(&$normalizedKey, &$value): bool
@@ -1005,7 +1004,7 @@ final class Filesystem extends AbstractAdapter implements
     /**
      * Internal method to store multiple items.
      *
-     * @param  array $normalizedKeyValuePairs
+     * @param array $normalizedKeyValuePairs
      * @return array Array of not stored keys
      * @throws Exception\ExceptionInterface
      */
@@ -1051,9 +1050,9 @@ final class Filesystem extends AbstractAdapter implements
      * @see    Filesystem::setItem()
      * @see    Filesystem::getItem()
      *
-     * @param  mixed  $token
-     * @param  string $key
-     * @param  mixed  $value
+     * @param mixed $token
+     * @param string $key
+     * @param mixed $value
      * @throws Exception\ExceptionInterface
      */
     public function checkAndSetItem($token, $key, $value): bool
@@ -1072,9 +1071,9 @@ final class Filesystem extends AbstractAdapter implements
      * @see    Filesystem::setItem()
      * @see    Filesystem::getItem()
      *
-     * @param  mixed  $token
-     * @param  string $normalizedKey
-     * @param  mixed  $value
+     * @param mixed $token
+     * @param string $normalizedKey
+     * @param mixed $value
      * @throws Exception\ExceptionInterface
      */
     protected function internalCheckAndSetItem(&$token, &$normalizedKey, &$value): bool
@@ -1101,7 +1100,7 @@ final class Filesystem extends AbstractAdapter implements
     /**
      * Reset lifetime of an item
      *
-     * @param  string $key
+     * @param string $key
      * @throws Exception\ExceptionInterface
      * @triggers touchItem.pre(PreEvent)
      * @triggers touchItem.post(PostEvent)
@@ -1120,7 +1119,7 @@ final class Filesystem extends AbstractAdapter implements
     /**
      * Reset lifetime of multiple items.
      *
-     * @param  array $keys
+     * @param array $keys
      * @return array Array of not updated keys
      * @throws Exception\ExceptionInterface
      * @triggers touchItems.pre(PreEvent)
@@ -1140,14 +1139,14 @@ final class Filesystem extends AbstractAdapter implements
     /**
      * Internal method to reset lifetime of an item
      *
-     * @param  string $normalizedKey
+     * @param string $normalizedKey
      * @throws Exception\ExceptionInterface
      */
     protected function internalTouchItem(&$normalizedKey): bool
     {
-        $data = (string) $this->internalGetItem($normalizedKey, $success);
+        $data = $this->internalGetItem($normalizedKey, $success);
 
-        if ($success === false) {
+        if ($data === null && $success === false) {
             return false;
         }
 
@@ -1157,7 +1156,7 @@ final class Filesystem extends AbstractAdapter implements
     /**
      * Remove an item.
      *
-     * @param  string $key
+     * @param string $key
      * @throws Exception\ExceptionInterface
      * @triggers removeItem.pre(PreEvent)
      * @triggers removeItem.post(PostEvent)
@@ -1176,7 +1175,7 @@ final class Filesystem extends AbstractAdapter implements
     /**
      * Remove multiple items.
      *
-     * @param  array $keys
+     * @param array $keys
      * @return array Array of not removed keys
      * @throws Exception\ExceptionInterface
      * @triggers removeItems.pre(PreEvent)
@@ -1196,7 +1195,7 @@ final class Filesystem extends AbstractAdapter implements
     /**
      * Internal method to remove an item.
      *
-     * @param  string $normalizedKey
+     * @param string $normalizedKey
      * @throws Exception\ExceptionInterface
      */
     protected function internalRemoveItem(&$normalizedKey): bool
@@ -1378,9 +1377,9 @@ final class Filesystem extends AbstractAdapter implements
     /**
      * Read a complete file
      *
-     * @param  string  $file        File complete path
-     * @param  bool $nonBlocking Don't block script if file is locked
-     * @param  bool $wouldblock  The optional argument is set to TRUE if the lock would block
+     * @param string $file File complete path
+     * @param bool $nonBlocking Don't block script if file is locked
+     * @param bool $wouldblock The optional argument is set to TRUE if the lock would block
      * @throws Exception\RuntimeException
      */
     private function getFileContent(string $file, bool $nonBlocking = false, ?bool &$wouldblock = null): string
@@ -1465,8 +1464,8 @@ final class Filesystem extends AbstractAdapter implements
     /**
      * Write content to a file
      *
-     * @param  bool $nonBlocking Don't block script if file is locked
-     * @param  bool|null $wouldblock  The optional argument is set to true if the lock would block
+     * @param bool $nonBlocking Don't block script if file is locked
+     * @param bool|null $wouldblock The optional argument is set to true if the lock would block
      * @throws Exception\RuntimeException
      */
     private function putFileContent(
@@ -1541,105 +1540,12 @@ final class Filesystem extends AbstractAdapter implements
     private function itemExpired(string $normalizedKey): bool
     {
         $filespec = $this->formatFilename($this->getFileSpec($normalizedKey));
-        ErrorHandler::start();
-
-        try {
-            $expired = $this->filesystem->expired($filespec);
-        } catch (UnlinkException $exception) {
-            if ($this->filesystem->exists($filespec)) {
-                ErrorHandler::addError(
-                    $exception->getErrorSeverity(),
-                    $exception->getErrorMessage(),
-                    $exception->getErrorFile(),
-                    $exception->getErrorLine()
-                );
-            }
-
-            $expired = true;
-        }
+        $expired  = $this->filesystem->expired($filespec);
 
         if ($expired) {
-            try {
-                $this->filesystem->delete($this->formatTagFilename($filespec));
-            } catch (UnlinkException $exception) {
-                ErrorHandler::addError(
-                    $exception->getErrorSeverity(),
-                    $exception->getErrorMessage(),
-                    $exception->getErrorFile(),
-                    $exception->getErrorLine()
-                );
-            }
-        }
-
-        $error = ErrorHandler::stop();
-
-        //Failure to delete expired cache shouldn't interrupt program flow
-        //Trigger Exception event without throwing
-        if ($error) {
-            $result         = true;
-            $exceptionEvent = new ExceptionEvent(
-                __FUNCTION__ . '.exception',
-                $this,
-                new ArrayObject(),
-                $result,
-                new Exception\RuntimeException("Expired file '{$filespec}' was not deleted ", 0, $error)
-            );
-            $eventRs        = $this->getEventManager()->triggerEvent($exceptionEvent);
-
-            return $eventRs->stopped()
-                ? (bool) $eventRs->last()
-                : (bool) $exceptionEvent->getResult();
+            $this->filesystem->delete($this->formatTagFilename($filespec));
         }
 
         return $expired;
-    }
-
-    private function deleteExpiredFile(string $file): void
-    {
-        ErrorHandler::start();
-
-        try {
-            $result = $this->filesystem->delete($file);
-        } catch (UnlinkException $exception) {
-            if ($this->filesystem->exists($file)) {
-                ErrorHandler::addError(
-                    $exception->getErrorSeverity(),
-                    $exception->getErrorMessage(),
-                    $exception->getErrorFile(),
-                    $exception->getErrorLine()
-                );
-            }
-
-            $result = true;
-        }
-
-        if ($result) {
-            $tagPathname = $this->formatTagFilename($file);
-            try {
-                $this->filesystem->delete($tagPathname);
-            } catch (UnlinkException $exception) {
-                ErrorHandler::addError(
-                    $exception->getErrorSeverity(),
-                    $exception->getErrorMessage(),
-                    $exception->getErrorFile(),
-                    $exception->getErrorLine()
-                );
-            }
-        }
-
-        //Failure to delete invalid cache shouldn't interrupt program flow
-        //Trigger ExceptionEvent without throwing
-        $err = ErrorHandler::stop();
-        if ($err) {
-            $result         = true;
-            $exceptionEvent = new ExceptionEvent(
-                __FUNCTION__ . '.exception',
-                $this,
-                new ArrayObject(),
-                $result,
-                new Exception\RuntimeException("Failed to delete expired file '{$file}'", 0, $err)
-            );
-            $this->getEventManager()->triggerEvent($exceptionEvent);
-        }
     }
 }
