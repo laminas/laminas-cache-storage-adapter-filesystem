@@ -112,9 +112,11 @@ final class FilesystemOptions extends AdapterOptions
             $this->dirPermission  = false;
         }
 
-        $this->setCacheDir(null);
-
         parent::__construct($options);
+        
+        if (null === $this->cacheDir) {
+            $this->setCacheDir(null);
+        }
     }
 
     /**
