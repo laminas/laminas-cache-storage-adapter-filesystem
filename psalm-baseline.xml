@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.10.0@916b098b008f6de4543892b1e0651c1c3b92cbfa">
+<files psalm-version="4.30.0@d0bc6e25d89f649e4f36a534f330f8bb4643dd69">
   <file src="src/Filesystem.php">
     <ImplementedReturnTypeMismatch occurrences="2">
       <code>bool</code>
       <code>bool</code>
     </ImplementedReturnTypeMismatch>
     <ImplicitToStringCast occurrences="3">
-      <code>$pathname</code>
-      <code>$pathname</code>
-      <code>$pathname</code>
-      <code>$pathname</code>
-      <code>$pathname</code>
       <code>$pathname</code>
       <code>$pathname</code>
       <code>$pathname</code>
@@ -31,9 +26,6 @@
       <code>$event</code>
       <code>$event</code>
     </MissingClosureParamType>
-    <MissingClosureReturnType occurrences="1">
-      <code>function ($event) use (&amp;$events, &amp;$handle, &amp;$totalSpace) {</code>
-    </MissingClosureReturnType>
     <MixedArgument occurrences="2">
       <code>$key</code>
       <code>$params['namespace_separator']</code>
@@ -87,7 +79,6 @@
       <code>$pathname</code>
       <code>$pathname</code>
       <code>$pathname</code>
-      <code>$pathname</code>
     </PossiblyInvalidArgument>
     <PossiblyUndefinedVariable occurrences="2">
       <code>$diff</code>
@@ -104,12 +95,18 @@
       <code>$clearFolder</code>
     </UnusedVariable>
   </file>
+  <file src="src/Filesystem/AdapterPluginManagerDelegatorFactory.php">
+    <InvalidArgument occurrences="1"/>
+  </file>
   <file src="src/FilesystemIterator.php">
     <RedundantCastGivenDocblockType occurrences="1">
       <code>(int) $mode</code>
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/FilesystemOptions.php">
+    <PossiblyInvalidArgument occurrences="1">
+      <code>$options</code>
+    </PossiblyInvalidArgument>
     <PossiblyInvalidPropertyAssignmentValue occurrences="3">
       <code>$dirPermission</code>
       <code>$filePermission</code>
@@ -135,8 +132,6 @@
       <code>$cacheDir</code>
     </PossiblyFalseArgument>
     <PossiblyNullArrayAccess occurrences="2">
-      <code>$err['message']</code>
-      <code>$err['message']</code>
       <code>$err['message']</code>
       <code>$err['message']</code>
     </PossiblyNullArrayAccess>
