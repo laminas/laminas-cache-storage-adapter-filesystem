@@ -180,7 +180,7 @@ final class FilesystemTest extends AbstractCommonAdapterTest
         $this->storage->setItem('a_key', 'a_value');
         $this->options->setDirLevel(1);
         $this->storage->setItem('b_key', 'b_value');
-        $glob = glob($this->tmpCacheDir . '/*');
+        glob($this->tmpCacheDir . '/*');
         //contrived prefix which will collide with an existing directory
         $prefix = substr(md5('a_key'), 2, 2);
         $this->storage->clearByPrefix($prefix);

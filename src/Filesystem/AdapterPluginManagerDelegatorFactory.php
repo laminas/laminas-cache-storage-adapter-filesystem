@@ -8,9 +8,13 @@ use Interop\Container\ContainerInterface; // phpcs:disable WebimpressCodingStand
 use Laminas\Cache\Storage\Adapter\Filesystem;
 use Laminas\Cache\Storage\AdapterPluginManager;
 use Laminas\ServiceManager\Factory\InvokableFactory;
+use Laminas\ServiceManager\ServiceManager;
 
 use function assert;
 
+/**
+ * @psalm-import-type ServiceManagerConfiguration from ServiceManager
+ */
 final class AdapterPluginManagerDelegatorFactory
 {
     public function __invoke(ContainerInterface $container, string $name, callable $callback): AdapterPluginManager
@@ -18,7 +22,8 @@ final class AdapterPluginManagerDelegatorFactory
         $pluginManager = $callback();
         assert($pluginManager instanceof AdapterPluginManager);
 
-        $pluginManager->configure([
+        /** @var ServiceManagerConfiguration $config */
+        $config = [
             'factories' => [
                 Filesystem::class => InvokableFactory::class,
             ],
@@ -26,7 +31,9 @@ final class AdapterPluginManagerDelegatorFactory
                 'filesystem' => Filesystem::class,
                 'Filesystem' => Filesystem::class,
             ],
-        ]);
+        ];
+
+        $pluginManager->configure($config);
 
         return $pluginManager;
     }

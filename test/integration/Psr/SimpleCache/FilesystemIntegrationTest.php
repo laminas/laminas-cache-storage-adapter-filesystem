@@ -65,11 +65,8 @@ class FilesystemIntegrationTest extends AbstractSimpleCacheIntegrationTest
     {
         $this->umask = umask();
 
-        if (getenv('TESTS_LAMINAS_CACHE_FILESYSTEM_DIR')) {
-            $cacheDir = getenv('TESTS_LAMINAS_CACHE_FILESYSTEM_DIR');
-        } else {
-            $cacheDir = sys_get_temp_dir();
-        }
+        $cacheDir = getenv('TESTS_LAMINAS_CACHE_FILESYSTEM_DIR');
+        $cacheDir = is_string($cacheDir) ? $cacheDir : sys_get_temp_dir();
 
         $this->tmpCacheDir = tempnam($cacheDir, 'laminas_cache_test_');
 

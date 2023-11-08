@@ -22,6 +22,8 @@ use Laminas\Cache\Storage\IterableInterface;
 use Laminas\Cache\Storage\OptimizableInterface;
 use Laminas\Cache\Storage\TaggableInterface;
 use Laminas\Cache\Storage\TotalSpaceCapableInterface;
+use Laminas\EventManager\EventInterface;
+use Laminas\EventManager\EventManagerInterface;
 use Laminas\Stdlib\ErrorHandler;
 use stdClass;
 use Traversable;
@@ -53,6 +55,9 @@ use const GLOB_NOESCAPE;
 use const GLOB_NOSORT;
 use const GLOB_ONLYDIR;
 
+/**
+ * @implements IterableInterface<string, mixed>
+ */
 final class Filesystem extends AbstractAdapter implements
     AvailableSpaceCapableInterface,
     ClearByNamespaceInterface,
@@ -97,6 +102,7 @@ final class Filesystem extends AbstractAdapter implements
     public function __construct($options = null, ?FilesystemInteractionInterface $filesystem = null)
     {
         parent::__construct($options);
+        $this->pluginRegistry = new \SplObjectStorage();
         $this->filesystem = $filesystem ?? new LocalFilesystemInteraction();
 
         // clean total space buffer on change cache_dir
@@ -104,7 +110,9 @@ final class Filesystem extends AbstractAdapter implements
         $handle     = static function (): void {
         };
         $totalSpace = &$this->totalSpace;
-        $callback   = static function ($event) use (&$events, &$handle, &$totalSpace): void {
+        $callback   = static function (EventInterface $event) use (&$events, &$handle, &$totalSpace): void {
+            assert($events instanceof EventManagerInterface);
+            assert(is_callable($handle));
             $params = $event->getParams();
             if (isset($params['cache_dir'])) {
                 $totalSpace = null;
@@ -112,6 +120,7 @@ final class Filesystem extends AbstractAdapter implements
             }
         };
 
+        assert($events instanceof EventManagerInterface);
         $events->attach('option', $callback);
     }
 
@@ -120,8 +129,8 @@ final class Filesystem extends AbstractAdapter implements
      *
      * @see    Filesystem::getOptions()
      *
-     * @param array|Traversable|FilesystemOptions $options
-     * @return Filesystem
+     * @param null|array|Traversable|AdapterOptions $options
+     * @return AbstractAdapter
      */
     public function setOptions($options)
     {
@@ -159,10 +168,11 @@ final class Filesystem extends AbstractAdapter implements
     {
         $flags       = GlobIterator::SKIP_DOTS | GlobIterator::CURRENT_AS_PATHNAME;
         $dir         = $this->getOptions()->getCacheDir();
-        $clearFolder = null;
-        $clearFolder = function ($dir) use (&$clearFolder, $flags): void {
+        $clearFolder = function (string $dir) use (&$clearFolder, $flags): void {
+            assert(is_callable($clearFolder));
             $it = new GlobIterator($dir . DIRECTORY_SEPARATOR . '*', $flags);
             foreach ($it as $pathname) {
+                $pathname = (string) $pathname;
                 if ($it->isDir()) {
                     $clearFolder($pathname);
                     rmdir($pathname);
@@ -269,12 +279,14 @@ final class Filesystem extends AbstractAdapter implements
         $error = ErrorHandler::stop();
         if ($error) {
             $result = false;
-            return $this->triggerException(
+            $this->triggerException(
                 __FUNCTION__,
                 new ArrayObject(),
                 $result,
                 new Exception\RuntimeException('Failed to clear expired items', 0, $error)
             );
+
+            return false;
         }
 
         return true;
@@ -307,6 +319,7 @@ final class Filesystem extends AbstractAdapter implements
 
         ErrorHandler::start();
         foreach ($glob as $pathname) {
+            $pathname = (string) $pathname;
             // remove the file by ignoring errors if the file doesn't exist afterwards
             // to fix a possible race condition if another process removed the file already.
             try {
@@ -326,12 +339,14 @@ final class Filesystem extends AbstractAdapter implements
         $err = ErrorHandler::stop();
         if ($err) {
             $result = false;
-            return $this->triggerException(
+            $this->triggerException(
                 __FUNCTION__,
                 new ArrayObject(),
                 $result,
                 new Exception\RuntimeException("Failed to clear items of namespace '{$namespace}'", 0, $err)
             );
+
+            return false;
         }
 
         return true;
@@ -384,12 +399,14 @@ final class Filesystem extends AbstractAdapter implements
         $err = ErrorHandler::stop();
         if ($err) {
             $result = false;
-            return $this->triggerException(
+            $this->triggerException(
                 __FUNCTION__,
                 new ArrayObject(),
                 $result,
                 new Exception\RuntimeException("Failed to remove files of '{$path}'", 0, $err)
             );
+
+            return false;
         }
 
         return true;
@@ -481,6 +498,7 @@ final class Filesystem extends AbstractAdapter implements
             try {
                 $diff = array_diff($tags, explode("\n", $this->getFileContent($pathname)));
             } catch (Exception\RuntimeException $exception) {
+                $diff = [];
                 // ignore missing files because of possible raise conditions
                 // e.g. another process already deleted that item
                 if (! $this->filesystem->exists($pathname)) {
@@ -926,7 +944,7 @@ final class Filesystem extends AbstractAdapter implements
      * Add multiple items.
      *
      * @param  array $keyValuePairs
-     * @return bool
+     * @return array
      * @throws Exception\ExceptionInterface
      * @triggers addItems.pre(PreEvent)
      * @triggers addItems.post(PostEvent)
@@ -967,7 +985,7 @@ final class Filesystem extends AbstractAdapter implements
      * Replace multiple existing items.
      *
      * @param  array $keyValuePairs
-     * @return bool
+     * @return array
      * @throws Exception\ExceptionInterface
      * @triggers replaceItems.pre(PreEvent)
      * @triggers replaceItems.post(PostEvent)
@@ -1293,7 +1311,7 @@ final class Filesystem extends AbstractAdapter implements
             );
 
             // update capabilities on change options
-            $this->getEventManager()->attach('option', static function ($event) use ($capabilities, $marker): void {
+            $this->getEventManager()->attach('option', static function (EventInterface $event) use ($capabilities, $marker): void {
                 $params = $event->getParams();
 
                 if (isset($params['namespace_separator'])) {
@@ -1321,6 +1339,7 @@ final class Filesystem extends AbstractAdapter implements
                         unset($metadata[$index]);
                     }
 
+                    /** @var array<array-key, string> $metadata */
                     $capabilities->setSupportedMetadata($marker, $metadata);
                 }
             });

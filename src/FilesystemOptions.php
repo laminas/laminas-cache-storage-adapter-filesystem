@@ -195,7 +195,7 @@ final class FilesystemOptions extends AdapterOptions
     {
         if ($dirPermission !== false) {
             if (is_string($dirPermission)) {
-                $dirPermission = octdec($dirPermission);
+                $dirPermission = (int) octdec($dirPermission);
             } else {
                 $dirPermission = (int) $dirPermission;
             }
@@ -252,7 +252,7 @@ final class FilesystemOptions extends AdapterOptions
     {
         if ($filePermission !== false) {
             if (is_string($filePermission)) {
-                $filePermission = octdec($filePermission);
+                $filePermission = (int) octdec($filePermission);
             } else {
                 $filePermission = (int) $filePermission;
             }
@@ -362,7 +362,7 @@ final class FilesystemOptions extends AdapterOptions
     {
         if ($umask !== false) {
             if (is_string($umask)) {
-                $umask = octdec($umask);
+                $umask = (int) octdec($umask);
             } else {
                 $umask = (int) $umask;
             }

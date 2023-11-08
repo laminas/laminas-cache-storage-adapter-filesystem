@@ -17,12 +17,12 @@
         "ext-pcntl": "*",
         "ext-posix": "*",
         "laminas/laminas-cache-storage-adapter-benchmark": "^1.2.0",
-        "laminas/laminas-cache-storage-adapter-test": "^2.5 || 2.0.x-dev",
+        "laminas/laminas-cache-storage-adapter-test": "^2.6 || 2.0.x-dev",
         "laminas/laminas-coding-standard": "^2.5",
         "laminas/laminas-serializer": "^2.17.0",
         "phpunit/phpunit": "^9.6.13",
         "psalm/plugin-phpunit": "^0.18.4",
-        "vimeo/psalm": "^4.30.0"
+        "vimeo/psalm": "^5.15"
     },
     "config": {
         "sort-packages": true,
