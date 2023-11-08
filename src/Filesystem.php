@@ -25,6 +25,7 @@ use Laminas\Cache\Storage\TotalSpaceCapableInterface;
 use Laminas\EventManager\EventInterface;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\Stdlib\ErrorHandler;
+use SplObjectStorage;
 use stdClass;
 use Traversable;
 
@@ -39,6 +40,7 @@ use function explode;
 use function func_num_args;
 use function glob;
 use function implode;
+use function is_callable;
 use function is_string;
 use function max;
 use function md5;
@@ -102,8 +104,8 @@ final class Filesystem extends AbstractAdapter implements
     public function __construct($options = null, ?FilesystemInteractionInterface $filesystem = null)
     {
         parent::__construct($options);
-        $this->pluginRegistry = new \SplObjectStorage();
-        $this->filesystem = $filesystem ?? new LocalFilesystemInteraction();
+        $this->pluginRegistry = new SplObjectStorage();
+        $this->filesystem     = $filesystem ?? new LocalFilesystemInteraction();
 
         // clean total space buffer on change cache_dir
         $events     = $this->getEventManager();
@@ -230,6 +232,7 @@ final class Filesystem extends AbstractAdapter implements
 
         ErrorHandler::start();
         foreach ($glob as $pathname) {
+            $pathname = (string) $pathname;
             // get last modification time of the file but ignore if the file is missing
             // to fix a possible race condition if another process removed the file already.
             try {

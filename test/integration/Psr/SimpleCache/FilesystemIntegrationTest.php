@@ -12,6 +12,7 @@ use LaminasTest\Cache\Storage\Adapter\AbstractSimpleCacheIntegrationTest;
 
 use function assert;
 use function getenv;
+use function is_string;
 use function mkdir;
 use function sys_get_temp_dir;
 use function tempnam;

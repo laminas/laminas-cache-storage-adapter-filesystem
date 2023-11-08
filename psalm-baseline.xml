@@ -1,142 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.30.0@d0bc6e25d89f649e4f36a534f330f8bb4643dd69">
+<files psalm-version="5.15.0@5c774aca4746caf3d239d9c8cadb9f882ca29352">
   <file src="src/Filesystem.php">
-    <ImplementedReturnTypeMismatch occurrences="2">
-      <code>bool</code>
-      <code>bool</code>
-    </ImplementedReturnTypeMismatch>
-    <ImplicitToStringCast occurrences="3">
-      <code>$pathname</code>
-      <code>$pathname</code>
-      <code>$pathname</code>
-    </ImplicitToStringCast>
-    <InvalidReturnStatement occurrences="2">
-      <code>parent::addItems($keyValuePairs)</code>
-      <code>parent::replaceItems($keyValuePairs)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="2">
-      <code>bool</code>
-      <code>bool</code>
-    </InvalidReturnType>
-    <LessSpecificReturnStatement occurrences="1">
-      <code>parent::setOptions($options)</code>
-    </LessSpecificReturnStatement>
-    <MissingClosureParamType occurrences="3">
-      <code>$dir</code>
-      <code>$event</code>
-      <code>$event</code>
-    </MissingClosureParamType>
-    <MixedArgument occurrences="2">
+    <MixedArgument>
       <code>$key</code>
-      <code>$params['namespace_separator']</code>
+      <code><![CDATA[$params['namespace_separator']]]></code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>$metadata</code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="1">
-      <code>$params['namespace_separator']</code>
-    </MixedArrayAccess>
-    <MixedAssignment occurrences="6">
+    <MixedAssignment>
       <code>$content</code>
-      <code>$contents[$this-&gt;formatFilename($filespec)]</code>
+      <code><![CDATA[$contents[$this->formatFilename($filespec)]]]></code>
       <code>$key</code>
-      <code>$params</code>
-      <code>$params</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedFunctionCall occurrences="1">
-      <code>$clearFolder($pathname)</code>
-    </MixedFunctionCall>
-    <MixedInferredReturnType occurrences="4">
+    <MixedInferredReturnType>
       <code>FilesystemOptions</code>
-      <code>bool</code>
-      <code>bool</code>
-      <code>bool</code>
     </MixedInferredReturnType>
-    <MixedMethodCall occurrences="4">
-      <code>attach</code>
-      <code>detach</code>
-      <code>getParams</code>
-      <code>getParams</code>
-    </MixedMethodCall>
-    <MixedOperand occurrences="1">
-      <code>$dir</code>
-    </MixedOperand>
-    <MixedReturnStatement occurrences="4">
-      <code>$this-&gt;options</code>
+    <MixedReturnStatement>
+      <code><![CDATA[$this->options]]></code>
     </MixedReturnStatement>
-    <MoreSpecificImplementedParamType occurrences="1">
+    <PossiblyInvalidArgument>
       <code>$options</code>
-    </MoreSpecificImplementedParamType>
-    <MoreSpecificReturnType occurrences="1">
-      <code>Filesystem</code>
-    </MoreSpecificReturnType>
-    <PossiblyInvalidArgument occurrences="7">
-      <code>$pathname</code>
-      <code>$pathname</code>
-      <code>$pathname</code>
-      <code>$pathname</code>
-      <code>$pathname</code>
-      <code>$pathname</code>
-      <code>$pathname</code>
     </PossiblyInvalidArgument>
-    <PossiblyUndefinedVariable occurrences="2">
-      <code>$diff</code>
-      <code>$diff</code>
-    </PossiblyUndefinedVariable>
-    <PropertyNotSetInConstructor occurrences="1">
-      <code>Filesystem</code>
-    </PropertyNotSetInConstructor>
-    <RedundantCastGivenDocblockType occurrences="2">
+    <RedundantCastGivenDocblockType>
       <code>(string) $namespace</code>
       <code>(string) $prefix</code>
     </RedundantCastGivenDocblockType>
-    <UnusedVariable occurrences="1">
-      <code>$clearFolder</code>
-    </UnusedVariable>
-  </file>
-  <file src="src/Filesystem/AdapterPluginManagerDelegatorFactory.php">
-    <InvalidArgument occurrences="1"/>
+    <UnsupportedPropertyReferenceUsage>
+      <code><![CDATA[$totalSpace = &$this->totalSpace]]></code>
+    </UnsupportedPropertyReferenceUsage>
+    <UnsupportedReferenceUsage>
+      <code><![CDATA[$contents[$this->formatFilename($filespec)] = &$value]]></code>
+    </UnsupportedReferenceUsage>
   </file>
   <file src="src/FilesystemIterator.php">
-    <RedundantCastGivenDocblockType occurrences="1">
+    <RedundantCastGivenDocblockType>
       <code>(int) $mode</code>
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/FilesystemOptions.php">
-    <PossiblyInvalidArgument occurrences="1">
+    <MixedArgumentTypeCoercion>
       <code>$options</code>
-    </PossiblyInvalidArgument>
-    <PossiblyInvalidPropertyAssignmentValue occurrences="3">
-      <code>$dirPermission</code>
-      <code>$filePermission</code>
-      <code>$umask</code>
-    </PossiblyInvalidPropertyAssignmentValue>
-    <RedundantCastGivenDocblockType occurrences="3">
+    </MixedArgumentTypeCoercion>
+    <RedundantCastGivenDocblockType>
       <code>(int) $dirPermission</code>
       <code>(int) $filePermission</code>
       <code>(int) $umask</code>
     </RedundantCastGivenDocblockType>
-  </file>
-  <file src="test/integration/Psr/SimpleCache/FilesystemIntegrationTest.php">
-    <PossiblyFalseArgument occurrences="1">
-      <code>$cacheDir</code>
-    </PossiblyFalseArgument>
-  </file>
-  <file src="test/unit/FilesystemTest.php">
-    <MixedOperand occurrences="2">
-      <code>$meta['filespec']</code>
-      <code>$meta['filespec']</code>
-    </MixedOperand>
-    <PossiblyFalseArgument occurrences="1">
-      <code>$cacheDir</code>
-    </PossiblyFalseArgument>
-    <PossiblyNullArrayAccess occurrences="2">
-      <code>$err['message']</code>
-      <code>$err['message']</code>
-    </PossiblyNullArrayAccess>
-    <UnusedVariable occurrences="1">
-      <code>$glob</code>
-    </UnusedVariable>
   </file>
 </files>

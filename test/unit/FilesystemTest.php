@@ -11,6 +11,7 @@ use Laminas\Cache\Storage\Plugin\ExceptionHandler;
 use Laminas\Cache\Storage\Plugin\PluginOptions;
 use LaminasTest\Cache\Storage\Adapter\Filesystem\TestAsset\DelayedFilesystemInteraction;
 
+use function array_key_exists;
 use function chmod;
 use function count;
 use function error_get_last;
@@ -18,12 +19,15 @@ use function fileatime;
 use function filectime;
 use function getenv;
 use function glob;
+use function is_array;
+use function is_string;
 use function md5;
 use function mkdir;
 use function pcntl_fork;
 use function posix_getpid;
 use function posix_kill;
 use function sleep;
+use function sprintf;
 use function str_repeat;
 use function substr;
 use function sys_get_temp_dir;
@@ -47,21 +51,26 @@ final class FilesystemTest extends AbstractCommonAdapterTest
     {
         $this->umask = umask();
 
-        if (getenv('TESTS_LAMINAS_CACHE_FILESYSTEM_DIR')) {
-            $cacheDir = getenv('TESTS_LAMINAS_CACHE_FILESYSTEM_DIR');
-        } else {
-            $cacheDir = sys_get_temp_dir();
-        }
+        $cacheDir = getenv('TESTS_LAMINAS_CACHE_FILESYSTEM_DIR');
+        $cacheDir = is_string($cacheDir) ? $cacheDir : sys_get_temp_dir();
+
+        $getMessage = static function (array|null $value): string {
+            if (! is_array($value) || ! array_key_exists('message', $value) || ! is_string($value['message'])) {
+                return 'no information';
+            }
+
+            return $value['message'];
+        };
 
         $this->tmpCacheDir = tempnam($cacheDir, 'laminas_cache_test_');
         if (! $this->tmpCacheDir) {
             $this->fail("Can't create temporary cache directory-file.");
         } elseif (! @unlink($this->tmpCacheDir)) {
             $err = error_get_last();
-            $this->fail("Can't remove temporary cache directory-file: {$err['message']}");
+            $this->fail(sprintf("Can't remove temporary cache directory-file: %s", $getMessage($err)));
         } elseif (! @mkdir($this->tmpCacheDir, 0777)) {
             $err = error_get_last();
-            $this->fail("Can't create temporary cache directory: {$err['message']}");
+            $this->fail(sprintf("Can't create temporary cache directory: %s", $getMessage($err)));
         }
 
         $this->options = new FilesystemOptions([
@@ -127,6 +136,8 @@ final class FilesystemTest extends AbstractCommonAdapterTest
 
         $meta = $this->storage->getMetadata('test');
         $this->assertIsArray($meta);
+        $this->assertArrayHasKey('filespec', $meta);
+        $this->assertIsString($meta['filespec']);
 
         $expectedCtime = filectime($meta['filespec'] . '.dat');
         $this->assertEquals($expectedCtime, $meta['ctime']);
@@ -140,6 +151,8 @@ final class FilesystemTest extends AbstractCommonAdapterTest
 
         $meta = $this->storage->getMetadata('test');
         $this->assertIsArray($meta);
+        $this->assertArrayHasKey('filespec', $meta);
+        $this->assertIsString($meta['filespec']);
 
         $expectedAtime = fileatime($meta['filespec'] . '.dat');
         $this->assertEquals($expectedAtime, $meta['atime']);
