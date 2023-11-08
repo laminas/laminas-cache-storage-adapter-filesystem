@@ -3,7 +3,6 @@
   <file src="src/Filesystem.php">
     <MixedArgument>
       <code>$key</code>
-      <code><![CDATA[$params['namespace_separator']]]></code>
     </MixedArgument>
     <MixedAssignment>
       <code>$content</code>

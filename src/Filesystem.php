@@ -1314,38 +1314,41 @@ final class Filesystem extends AbstractAdapter implements
             );
 
             // update capabilities on change options
-            $this->getEventManager()->attach('option', static function (EventInterface $event) use ($capabilities, $marker): void {
-                $params = $event->getParams();
+            $this->getEventManager()->attach(
+                'option',
+                static function (EventInterface $event) use ($capabilities, $marker): void {
+                    $params = $event->getParams();
 
-                if (isset($params['namespace_separator'])) {
-                    $capabilities->setNamespaceSeparator($marker, $params['namespace_separator']);
-                }
-
-                if (isset($params['no_atime']) || isset($params['no_ctime'])) {
-                    $metadata = $capabilities->getSupportedMetadata();
-
-                    if (isset($params['no_atime']) && ! $params['no_atime']) {
-                        $metadata[] = self::METADATA_ATIME;
-                    } elseif (
-                        isset($params['no_atime'])
-                        && ($index = array_search(self::METADATA_ATIME, $metadata)) !== false
-                    ) {
-                        unset($metadata[$index]);
+                    if (isset($params['namespace_separator'])) {
+                        $capabilities->setNamespaceSeparator($marker, (string) $params['namespace_separator']);
                     }
 
-                    if (isset($params['no_ctime']) && ! $params['no_ctime']) {
-                        $metadata[] = self::METADATA_CTIME;
-                    } elseif (
-                        isset($params['no_ctime'])
-                        && ($index = array_search(self::METADATA_CTIME, $metadata)) !== false
-                    ) {
-                        unset($metadata[$index]);
-                    }
+                    if (isset($params['no_atime']) || isset($params['no_ctime'])) {
+                        /** @var array<array-key, string> $metadata */
+                        $metadata = $capabilities->getSupportedMetadata();
 
-                    /** @var array<array-key, string> $metadata */
-                    $capabilities->setSupportedMetadata($marker, $metadata);
+                        if (isset($params['no_atime']) && ! $params['no_atime']) {
+                            $metadata[] = self::METADATA_ATIME;
+                        } elseif (
+                            isset($params['no_atime'])
+                            && ($index = array_search(self::METADATA_ATIME, $metadata)) !== false
+                        ) {
+                            unset($metadata[$index]);
+                        }
+
+                        if (isset($params['no_ctime']) && ! $params['no_ctime']) {
+                            $metadata[] = self::METADATA_CTIME;
+                        } elseif (
+                            isset($params['no_ctime'])
+                            && ($index = array_search(self::METADATA_CTIME, $metadata)) !== false
+                        ) {
+                            unset($metadata[$index]);
+                        }
+
+                        $capabilities->setSupportedMetadata($marker, $metadata);
+                    }
                 }
-            });
+            );
 
             $this->capabilityMarker = $marker;
             $this->capabilities     = $capabilities;
