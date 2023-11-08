@@ -10,15 +10,6 @@
       <code>$key</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code>FilesystemOptions</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code><![CDATA[$this->options]]></code>
-    </MixedReturnStatement>
-    <PossiblyInvalidArgument>
-      <code>$options</code>
-    </PossiblyInvalidArgument>
     <RedundantCastGivenDocblockType>
       <code>(string) $namespace</code>
       <code>(string) $prefix</code>
@@ -36,9 +27,6 @@
     </RedundantCastGivenDocblockType>
   </file>
   <file src="src/FilesystemOptions.php">
-    <MixedArgumentTypeCoercion>
-      <code>$options</code>
-    </MixedArgumentTypeCoercion>
     <RedundantCastGivenDocblockType>
       <code>(int) $dirPermission</code>
       <code>(int) $filePermission</code>

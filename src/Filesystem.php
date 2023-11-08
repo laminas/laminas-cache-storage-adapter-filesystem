@@ -155,6 +155,8 @@ final class Filesystem extends AbstractAdapter implements
         if (! $this->options) {
             $this->setOptions(new FilesystemOptions());
         }
+
+        assert($this->options instanceof FilesystemOptions);
         return $this->options;
     }
 
