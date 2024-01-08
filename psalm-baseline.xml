@@ -1,31 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="5.18.0@b113f3ed0259fd6e212d87c3df80eec95a6abf19">
+  <file src="benchmark/FilesystemStorageAdapterBench.php">
+    <UnusedClass>
+      <code>FilesystemStorageAdapterBench</code>
+    </UnusedClass>
+  </file>
   <file src="src/Filesystem.php">
-    <ImplementedReturnTypeMismatch>
-      <code>bool</code>
-      <code>bool</code>
-    </ImplementedReturnTypeMismatch>
     <ImplicitToStringCast>
       <code>$pathname</code>
       <code>$pathname</code>
       <code>$pathname</code>
-      <code>$pathname</code>
-      <code>$pathname</code>
-      <code>$pathname</code>
-      <code>$pathname</code>
-      <code>$pathname</code>
     </ImplicitToStringCast>
-    <InvalidReturnStatement>
-      <code>parent::addItems($keyValuePairs)</code>
-      <code>parent::replaceItems($keyValuePairs)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code>bool</code>
-      <code>bool</code>
-    </InvalidReturnType>
-    <LessSpecificReturnStatement>
-      <code>parent::setOptions($options)</code>
-    </LessSpecificReturnStatement>
     <MissingClosureParamType>
       <code>$dir</code>
       <code>$event</code>
@@ -64,15 +49,30 @@
     </MixedOperand>
     <MixedReturnStatement>
       <code><![CDATA[$this->options]]></code>
+      <code><![CDATA[$this->triggerException(
+                __FUNCTION__,
+                new ArrayObject(),
+                $result,
+                new Exception\RuntimeException("Failed to clear items of namespace '{$namespace}'", 0, $err)
+            )]]></code>
+      <code><![CDATA[$this->triggerException(
+                __FUNCTION__,
+                new ArrayObject(),
+                $result,
+                new Exception\RuntimeException("Failed to remove files of '{$path}'", 0, $err)
+            )]]></code>
+      <code><![CDATA[$this->triggerException(
+                __FUNCTION__,
+                new ArrayObject(),
+                $result,
+                new Exception\RuntimeException('Failed to clear expired items', 0, $error)
+            )]]></code>
     </MixedReturnStatement>
     <MoreSpecificImplementedParamType>
       <code>$options</code>
+      <code>$options</code>
     </MoreSpecificImplementedParamType>
-    <MoreSpecificReturnType>
-      <code>Filesystem</code>
-    </MoreSpecificReturnType>
     <PossiblyInvalidArgument>
-      <code>$pathname</code>
       <code>$pathname</code>
       <code>$pathname</code>
       <code>$pathname</code>
@@ -85,6 +85,16 @@
       <code>$diff</code>
       <code>$diff</code>
     </PossiblyUndefinedVariable>
+    <PossiblyUnusedReturnValue>
+      <code>array</code>
+      <code>array</code>
+      <code>bool</code>
+      <code>bool</code>
+      <code>bool</code>
+      <code>bool</code>
+      <code>bool</code>
+      <code>bool</code>
+    </PossiblyUnusedReturnValue>
     <PropertyNotSetInConstructor>
       <code>Filesystem</code>
     </PropertyNotSetInConstructor>
@@ -92,14 +102,32 @@
       <code>(string) $namespace</code>
       <code>(string) $prefix</code>
     </RedundantCastGivenDocblockType>
+    <UnsupportedPropertyReferenceUsage>
+      <code><![CDATA[$totalSpace = &$this->totalSpace]]></code>
+    </UnsupportedPropertyReferenceUsage>
+    <UnsupportedReferenceUsage>
+      <code><![CDATA[$contents[$this->formatFilename($filespec)] = &$value]]></code>
+    </UnsupportedReferenceUsage>
+    <UnusedReturnValue>
+      <code>bool</code>
+    </UnusedReturnValue>
     <UnusedVariable>
       <code>$clearFolder</code>
     </UnusedVariable>
+  </file>
+  <file src="src/Filesystem/AdapterPluginManagerDelegatorFactory.php">
+    <UnusedParam>
+      <code>$container</code>
+      <code>$name</code>
+    </UnusedParam>
   </file>
   <file src="src/FilesystemIterator.php">
     <RedundantCastGivenDocblockType>
       <code>(int) $mode</code>
     </RedundantCastGivenDocblockType>
+    <UnusedProperty>
+      <code>$prefix</code>
+    </UnusedProperty>
   </file>
   <file src="src/FilesystemOptions.php">
     <PossiblyInvalidPropertyAssignmentValue>
@@ -107,6 +135,11 @@
       <code>$filePermission</code>
       <code>$umask</code>
     </PossiblyInvalidPropertyAssignmentValue>
+    <PossiblyUnusedMethod>
+      <code>setClearStatCache</code>
+      <code>setFileLocking</code>
+      <code>setNamespaceSeparator</code>
+    </PossiblyUnusedMethod>
     <RedundantCastGivenDocblockType>
       <code>(int) $dirPermission</code>
       <code>(int) $filePermission</code>
@@ -127,8 +160,6 @@
       <code>$cacheDir</code>
     </PossiblyFalseArgument>
     <PossiblyNullArrayAccess>
-      <code><![CDATA[$err['message']]]></code>
-      <code><![CDATA[$err['message']]]></code>
       <code><![CDATA[$err['message']]]></code>
       <code><![CDATA[$err['message']]]></code>
     </PossiblyNullArrayAccess>
