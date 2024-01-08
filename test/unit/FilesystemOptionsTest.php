@@ -93,6 +93,7 @@ final class FilesystemOptionsTest extends AbstractAdapterOptionsTest
         if (substr(PHP_OS, 0, 3) === 'WIN') {
             self::markTestSkipped('Not testable on windows');
         } else {
+            $out = [];
             @exec('whoami 2>&1', $out, $ret);
             if ($ret) {
                 $err = error_get_last();

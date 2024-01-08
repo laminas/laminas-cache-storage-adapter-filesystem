@@ -53,6 +53,9 @@ use const GLOB_NOESCAPE;
 use const GLOB_NOSORT;
 use const GLOB_ONLYDIR;
 
+/**
+ * @implements IterableInterface<string, mixed>
+ */
 final class Filesystem extends AbstractAdapter implements
     AvailableSpaceCapableInterface,
     ClearByNamespaceInterface,
@@ -120,7 +123,7 @@ final class Filesystem extends AbstractAdapter implements
      *
      * @see    Filesystem::getOptions()
      *
-     * @param array|Traversable|FilesystemOptions $options
+     * @param array<string, mixed>|Traversable<string, mixed>|FilesystemOptions $options
      * @return Filesystem
      */
     public function setOptions($options)
@@ -129,7 +132,8 @@ final class Filesystem extends AbstractAdapter implements
             $options = new FilesystemOptions($options);
         }
 
-        return parent::setOptions($options);
+        parent::setOptions($options);
+        return $this;
     }
 
     /**
@@ -926,7 +930,7 @@ final class Filesystem extends AbstractAdapter implements
      * Add multiple items.
      *
      * @param  array $keyValuePairs
-     * @return bool
+     * @return array Array of not stored keys
      * @throws Exception\ExceptionInterface
      * @triggers addItems.pre(PreEvent)
      * @triggers addItems.post(PostEvent)
@@ -967,7 +971,7 @@ final class Filesystem extends AbstractAdapter implements
      * Replace multiple existing items.
      *
      * @param  array $keyValuePairs
-     * @return bool
+     * @return array Array of not stored keys
      * @throws Exception\ExceptionInterface
      * @triggers replaceItems.pre(PreEvent)
      * @triggers replaceItems.post(PostEvent)
@@ -987,11 +991,10 @@ final class Filesystem extends AbstractAdapter implements
      * Internal method to store an item.
      *
      * @param  string $normalizedKey
-     * @param  mixed  $value
      * @return bool
      * @throws Exception\ExceptionInterface
      */
-    protected function internalSetItem(&$normalizedKey, &$value)
+    protected function internalSetItem(&$normalizedKey, mixed &$value)
     {
         $filespec = $this->getFileSpec($normalizedKey);
         $file     = $this->formatFilename($filespec);
@@ -1083,11 +1086,10 @@ final class Filesystem extends AbstractAdapter implements
      *
      * @param  mixed  $token
      * @param  string $normalizedKey
-     * @param  mixed  $value
      * @return bool
      * @throws Exception\ExceptionInterface
      */
-    protected function internalCheckAndSetItem(&$token, &$normalizedKey, &$value)
+    protected function internalCheckAndSetItem(&$token, &$normalizedKey, mixed &$value)
     {
         if (! $this->internalHasItem($normalizedKey)) {
             return false;
