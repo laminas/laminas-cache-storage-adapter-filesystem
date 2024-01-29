@@ -55,6 +55,12 @@ final class FilesystemOptionsTest extends AbstractAdapterOptionsTest
         return new FilesystemOptions();
     }
 
+    public function testSetCacheDirToSystemsTempDirWhenNoCacheDirIsProvided(): void
+    {
+        $options = new FilesystemOptions();
+        self::assertEquals(realpath(sys_get_temp_dir()), $options->getCacheDir());
+    }
+
     public function testSetCacheDirToSystemsTempDirWithNull(): void
     {
         $this->options->setCacheDir(null);
