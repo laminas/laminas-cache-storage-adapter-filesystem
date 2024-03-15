@@ -21,7 +21,7 @@
         "laminas/laminas-coding-standard": "~2.4",
         "laminas/laminas-serializer": "^2.14.0",
         "phpunit/phpunit": "^9.5.26",
-        "psalm/plugin-phpunit": "^0.18.0",
+        "psalm/plugin-phpunit": "^0.19.0",
         "vimeo/psalm": "^5.18"
     },
     "config": {
