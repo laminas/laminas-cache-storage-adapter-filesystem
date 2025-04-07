@@ -1613,27 +1613,27 @@
         },
         {
             "name": "laminas/laminas-cache-storage-adapter-benchmark",
-            "version": "2.1.0",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-cache-storage-adapter-benchmark.git",
-                "reference": "a93216250daa5d41d379e446c6fd385d0849e31d"
+                "reference": "5fcd54d6184e801dad0aa0d5a0fb5a775cb2e49c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-cache-storage-adapter-benchmark/zipball/a93216250daa5d41d379e446c6fd385d0849e31d",
-                "reference": "a93216250daa5d41d379e446c6fd385d0849e31d",
+                "url": "https://api.github.com/repos/laminas/laminas-cache-storage-adapter-benchmark/zipball/5fcd54d6184e801dad0aa0d5a0fb5a775cb2e49c",
+                "reference": "5fcd54d6184e801dad0aa0d5a0fb5a775cb2e49c",
                 "shasum": ""
             },
             "require": {
-                "laminas/laminas-cache": "^4.0.1",
+                "laminas/laminas-cache": "^4.1.0",
                 "laminas/laminas-serializer": "^3.0",
-                "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
                 "phpbench/phpbench": "^1.2.15"
             },
             "require-dev": {
-                "laminas/laminas-coding-standard": "~2.5.0",
-                "vimeo/psalm": "^5.24.0"
+                "laminas/laminas-coding-standard": "~3.0.1",
+                "vimeo/psalm": "^6.10.0"
             },
             "type": "library",
             "autoload": {
@@ -1663,26 +1663,26 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2024-06-21T17:41:00+00:00"
+            "time": "2025-04-06T21:53:53+00:00"
         },
         {
             "name": "laminas/laminas-cache-storage-adapter-test",
-            "version": "4.1.0",
+            "version": "4.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-cache-storage-adapter-test.git",
-                "reference": "49ace93ed9837523160320a749966ca622c56856"
+                "reference": "49a4bdef1fa07e1d775d764b9d44b81b7bd856a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-cache-storage-adapter-test/zipball/49ace93ed9837523160320a749966ca622c56856",
-                "reference": "49ace93ed9837523160320a749966ca622c56856",
+                "url": "https://api.github.com/repos/laminas/laminas-cache-storage-adapter-test/zipball/49a4bdef1fa07e1d775d764b9d44b81b7bd856a9",
+                "reference": "49a4bdef1fa07e1d775d764b9d44b81b7bd856a9",
                 "shasum": ""
             },
             "require": {
-                "laminas/laminas-cache": "^4.0.3",
-                "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
-                "phpunit/phpunit": "^10.5",
+                "laminas/laminas-cache": "^4.1.0",
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
+                "phpunit/phpunit": "^10.5.45",
                 "psr/cache": "^2.0 || ^3.0",
                 "psr/clock": "^1.0",
                 "psr/container": "^2.0",
@@ -1690,9 +1690,9 @@
             },
             "require-dev": {
                 "composer-plugin-api": "^2",
-                "laminas/laminas-coding-standard": "~2.5.0",
-                "psalm/plugin-phpunit": "^0.19.0",
-                "vimeo/psalm": "^5.15.0",
+                "laminas/laminas-coding-standard": "~3.0.1",
+                "psalm/plugin-phpunit": "^0.19.5",
+                "vimeo/psalm": "^6.10.0",
                 "webmozart/assert": "^1.11"
             },
             "type": "library",
@@ -1723,7 +1723,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2024-07-10T14:29:34+00:00"
+            "time": "2025-04-06T20:05:31+00:00"
         },
         {
             "name": "laminas/laminas-coding-standard",
@@ -4155,16 +4155,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.12.0",
+            "version": "3.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
-                "reference": "2d1b63db139c3c6ea0c927698e5160f8b3b8d630"
+                "reference": "ea16a1f3719783345febd3aab41beb55c8c84bfd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/2d1b63db139c3c6ea0c927698e5160f8b3b8d630",
-                "reference": "2d1b63db139c3c6ea0c927698e5160f8b3b8d630",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/ea16a1f3719783345febd3aab41beb55c8c84bfd",
+                "reference": "ea16a1f3719783345febd3aab41beb55c8c84bfd",
                 "shasum": ""
             },
             "require": {
@@ -4235,7 +4235,7 @@
                     "type": "thanks_dev"
                 }
             ],
-            "time": "2025-03-18T05:04:51+00:00"
+            "time": "2025-04-04T12:57:55+00:00"
         },
         {
             "name": "symfony/console",
