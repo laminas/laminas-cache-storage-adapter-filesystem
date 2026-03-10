@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.25.0@01a8eb06b9e9cc6cfb6a320bf9fb14331919d505">
+<files psalm-version="6.15.1@28dc127af1b5aecd52314f6f645bafc10d0e11f9">
   <file src="benchmark/FilesystemStorageAdapterBench.php">
     <UnusedClass>
       <code><![CDATA[FilesystemStorageAdapterBench]]></code>
@@ -11,6 +11,9 @@
       <code><![CDATA[$pathname]]></code>
       <code><![CDATA[$pathname]]></code>
     </ImplicitToStringCast>
+    <InvalidNullableReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidNullableReturnType>
     <MissingClosureParamType>
       <code><![CDATA[$dir]]></code>
     </MissingClosureParamType>
@@ -22,6 +25,9 @@
     <MixedOperand>
       <code><![CDATA[$dir]]></code>
     </MixedOperand>
+    <NullableReturnStatement>
+      <code><![CDATA[preg_replace('#([*?\[])#', '[$1]', $suffix)]]></code>
+    </NullableReturnStatement>
     <PossiblyInvalidArgument>
       <code><![CDATA[$pathname]]></code>
       <code><![CDATA[$pathname]]></code>
@@ -30,6 +36,11 @@
       <code><![CDATA[$pathname]]></code>
       <code><![CDATA[$pathname]]></code>
     </PossiblyInvalidArgument>
+    <PossiblyNullArgument>
+      <code><![CDATA[$pathname]]></code>
+      <code><![CDATA[$pathname]]></code>
+      <code><![CDATA[$pathname]]></code>
+    </PossiblyNullArgument>
     <PossiblyUndefinedVariable>
       <code><![CDATA[$diff]]></code>
       <code><![CDATA[$diff]]></code>
@@ -52,6 +63,9 @@
     </UnusedParam>
   </file>
   <file src="src/FilesystemIterator.php">
+    <PossiblyNullArgument>
+      <code><![CDATA[$filename]]></code>
+    </PossiblyNullArgument>
     <RedundantCastGivenDocblockType>
       <code><![CDATA[(int) $mode]]></code>
     </RedundantCastGivenDocblockType>
@@ -60,6 +74,16 @@
     </UnusedProperty>
   </file>
   <file src="src/FilesystemOptions.php">
+    <InvalidOperand>
+      <code><![CDATA[$dirPermission & 0700]]></code>
+      <code><![CDATA[$filePermission & 0111]]></code>
+      <code><![CDATA[$filePermission & 0600]]></code>
+      <code><![CDATA[$umask & 0700]]></code>
+      <code><![CDATA[$umask &= ~0002]]></code>
+    </InvalidOperand>
+    <PossiblyFalseArgument>
+      <code><![CDATA[realpath($cacheDir)]]></code>
+    </PossiblyFalseArgument>
     <PossiblyInvalidPropertyAssignmentValue>
       <code><![CDATA[$dirPermission]]></code>
       <code><![CDATA[$filePermission]]></code>
@@ -71,15 +95,52 @@
       <code><![CDATA[setNamespaceSeparator]]></code>
     </PossiblyUnusedMethod>
   </file>
+  <file src="test/integration/Psr/CacheItemPool/FilesystemIntegrationTest.php">
+    <PossiblyFalseArgument>
+      <code><![CDATA[$cacheDirectory]]></code>
+      <code><![CDATA[$cacheDirectory]]></code>
+    </PossiblyFalseArgument>
+    <PossiblyFalsePropertyAssignmentValue>
+      <code><![CDATA[$cacheDirectory]]></code>
+    </PossiblyFalsePropertyAssignmentValue>
+  </file>
   <file src="test/integration/Psr/SimpleCache/FilesystemIntegrationTest.php">
     <PossiblyFalseArgument>
       <code><![CDATA[$cacheDir]]></code>
+    </PossiblyFalseArgument>
+    <PossiblyFalsePropertyAssignmentValue>
+      <code><![CDATA[tempnam($cacheDir, 'laminas_cache_test_')]]></code>
+    </PossiblyFalsePropertyAssignmentValue>
+  </file>
+  <file src="test/unit/FilesystemOptionsTest.php">
+    <PossiblyFalseArgument>
+      <code><![CDATA[$cacheDir]]></code>
+      <code><![CDATA[$cacheDir]]></code>
+      <code><![CDATA[$cacheDir]]></code>
+      <code><![CDATA[$cacheDir]]></code>
+      <code><![CDATA[$testDir]]></code>
+      <code><![CDATA[$testDir]]></code>
+      <code><![CDATA[$testDir]]></code>
+      <code><![CDATA[$testDir]]></code>
+      <code><![CDATA[$testDir]]></code>
+      <code><![CDATA[$testDir]]></code>
+      <code><![CDATA[$testDir]]></code>
+      <code><![CDATA[$testDir]]></code>
+      <code><![CDATA[$testDir]]></code>
+      <code><![CDATA[$testDir]]></code>
     </PossiblyFalseArgument>
   </file>
   <file src="test/unit/FilesystemTest.php">
     <PossiblyFalseArgument>
       <code><![CDATA[$cacheDir]]></code>
+      <code><![CDATA[$dirs]]></code>
     </PossiblyFalseArgument>
+    <PossiblyFalsePropertyAssignmentValue>
+      <code><![CDATA[tempnam($cacheDir, 'laminas_cache_test_')]]></code>
+    </PossiblyFalsePropertyAssignmentValue>
+    <PossiblyInvalidArrayAccess>
+      <code><![CDATA[$dirs[0]]]></code>
+    </PossiblyInvalidArrayAccess>
     <PossiblyNullArrayAccess>
       <code><![CDATA[$err['message']]]></code>
       <code><![CDATA[$err['message']]]></code>
