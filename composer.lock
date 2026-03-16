@@ -57,16 +57,16 @@
         },
         {
             "name": "laminas/laminas-cache",
-            "version": "4.2.0",
+            "version": "4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-cache.git",
-                "reference": "c5f21925cf20e717c31d1036bcb7d0f4b8699762"
+                "reference": "bc1b83593b49236deaac4577b09e3f9be737a79e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-cache/zipball/c5f21925cf20e717c31d1036bcb7d0f4b8699762",
-                "reference": "c5f21925cf20e717c31d1036bcb7d0f4b8699762",
+                "url": "https://api.github.com/repos/laminas/laminas-cache/zipball/bc1b83593b49236deaac4577b09e3f9be737a79e",
+                "reference": "bc1b83593b49236deaac4577b09e3f9be737a79e",
                 "shasum": ""
             },
             "require": {
@@ -77,7 +77,7 @@
                 "psr/cache": "^2.0 || ^3.0",
                 "psr/clock": "^1.0",
                 "psr/simple-cache": "^2.0 || ^3.0",
-                "webmozart/assert": "^1.11"
+                "webmozart/assert": "^1.11 || ^2.1.6"
             },
             "conflict": {
                 "laminas/laminas-serializer": "<3.0",
@@ -88,13 +88,13 @@
                 "psr/simple-cache-implementation": "1.0"
             },
             "require-dev": {
-                "laminas/laminas-cli": "^1.11",
+                "laminas/laminas-cli": "^1.15",
                 "laminas/laminas-coding-standard": "~3.1.0",
-                "laminas/laminas-config-aggregator": "^1.17",
+                "laminas/laminas-config-aggregator": "^1.19",
                 "laminas/laminas-serializer": "^3.2",
-                "phpunit/phpunit": "^11.5.37",
-                "psalm/plugin-phpunit": "^0.19.0",
-                "vimeo/psalm": "^6"
+                "phpunit/phpunit": "^11.5.55",
+                "psalm/plugin-phpunit": "^0.19.5",
+                "vimeo/psalm": "^6.15.1"
             },
             "suggest": {
                 "laminas/laminas-cache-storage-adapter-apcu": "APCu implementation",
@@ -146,7 +146,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2026-02-04T23:05:51+00:00"
+            "time": "2026-03-10T15:05:19+00:00"
         },
         {
             "name": "laminas/laminas-eventmanager",
@@ -624,23 +624,23 @@
         },
         {
             "name": "webmozart/assert",
-            "version": "1.12.1",
+            "version": "2.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozarts/assert.git",
-                "reference": "9be6926d8b485f55b9229203f962b51ed377ba68"
+                "reference": "ff31ad6efc62e66e518fbab1cde3453d389bcdc8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozarts/assert/zipball/9be6926d8b485f55b9229203f962b51ed377ba68",
-                "reference": "9be6926d8b485f55b9229203f962b51ed377ba68",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/ff31ad6efc62e66e518fbab1cde3453d389bcdc8",
+                "reference": "ff31ad6efc62e66e518fbab1cde3453d389bcdc8",
                 "shasum": ""
             },
             "require": {
                 "ext-ctype": "*",
                 "ext-date": "*",
                 "ext-filter": "*",
-                "php": "^7.2 || ^8.0"
+                "php": "^8.2"
             },
             "suggest": {
                 "ext-intl": "",
@@ -650,7 +650,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.10-dev"
+                    "dev-feature/2-0": "2.0-dev"
                 }
             },
             "autoload": {
@@ -666,6 +666,10 @@
                 {
                     "name": "Bernhard Schussek",
                     "email": "bschussek@gmail.com"
+                },
+                {
+                    "name": "Woody Gilk",
+                    "email": "woody.gilk@gmail.com"
                 }
             ],
             "description": "Assertions to validate method input/output with nice error messages.",
@@ -676,9 +680,9 @@
             ],
             "support": {
                 "issues": "https://github.com/webmozarts/assert/issues",
-                "source": "https://github.com/webmozarts/assert/tree/1.12.1"
+                "source": "https://github.com/webmozarts/assert/tree/2.1.6"
             },
-            "time": "2025-10-29T15:56:20+00:00"
+            "time": "2026-02-27T10:28:38+00:00"
         }
     ],
     "packages-dev": [
@@ -2320,27 +2324,27 @@
         },
         {
             "name": "laminas/laminas-cache-storage-adapter-benchmark",
-            "version": "2.2.0",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-cache-storage-adapter-benchmark.git",
-                "reference": "5fcd54d6184e801dad0aa0d5a0fb5a775cb2e49c"
+                "reference": "ea28f2c2b8f0c38ef3339de854729e3d7b775e64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-cache-storage-adapter-benchmark/zipball/5fcd54d6184e801dad0aa0d5a0fb5a775cb2e49c",
-                "reference": "5fcd54d6184e801dad0aa0d5a0fb5a775cb2e49c",
+                "url": "https://api.github.com/repos/laminas/laminas-cache-storage-adapter-benchmark/zipball/ea28f2c2b8f0c38ef3339de854729e3d7b775e64",
+                "reference": "ea28f2c2b8f0c38ef3339de854729e3d7b775e64",
                 "shasum": ""
             },
             "require": {
-                "laminas/laminas-cache": "^4.1.0",
-                "laminas/laminas-serializer": "^3.0",
-                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
-                "phpbench/phpbench": "^1.2.15"
+                "laminas/laminas-cache": "^4.2.0",
+                "laminas/laminas-serializer": "^3.2",
+                "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
+                "phpbench/phpbench": "^1.5.1"
             },
             "require-dev": {
-                "laminas/laminas-coding-standard": "~3.0.1",
-                "vimeo/psalm": "^6.10.0"
+                "laminas/laminas-coding-standard": "~3.1.0",
+                "vimeo/psalm": "^6.15.1"
             },
             "type": "library",
             "autoload": {
@@ -2370,26 +2374,26 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2025-04-06T21:53:53+00:00"
+            "time": "2026-03-10T11:02:32+00:00"
         },
         {
             "name": "laminas/laminas-cache-storage-adapter-test",
-            "version": "4.2.0",
+            "version": "4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-cache-storage-adapter-test.git",
-                "reference": "49a4bdef1fa07e1d775d764b9d44b81b7bd856a9"
+                "reference": "9d022f5e2bd7683f68e597f8c62bf59049559740"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-cache-storage-adapter-test/zipball/49a4bdef1fa07e1d775d764b9d44b81b7bd856a9",
-                "reference": "49a4bdef1fa07e1d775d764b9d44b81b7bd856a9",
+                "url": "https://api.github.com/repos/laminas/laminas-cache-storage-adapter-test/zipball/9d022f5e2bd7683f68e597f8c62bf59049559740",
+                "reference": "9d022f5e2bd7683f68e597f8c62bf59049559740",
                 "shasum": ""
             },
             "require": {
-                "laminas/laminas-cache": "^4.1.0",
-                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
-                "phpunit/phpunit": "^10.5.45",
+                "laminas/laminas-cache": "^4.2.0",
+                "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
+                "phpunit/phpunit": "^10.5.63",
                 "psr/cache": "^2.0 || ^3.0",
                 "psr/clock": "^1.0",
                 "psr/container": "^2.0",
@@ -2397,10 +2401,10 @@
             },
             "require-dev": {
                 "composer-plugin-api": "^2",
-                "laminas/laminas-coding-standard": "~3.0.1",
+                "laminas/laminas-coding-standard": "~3.1.0",
                 "psalm/plugin-phpunit": "^0.19.5",
-                "vimeo/psalm": "^6.10.0",
-                "webmozart/assert": "^1.11"
+                "vimeo/psalm": "^6.15.1",
+                "webmozart/assert": "^1.12.1"
             },
             "type": "library",
             "autoload": {
@@ -2430,7 +2434,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2025-04-06T20:05:31+00:00"
+            "time": "2026-03-10T14:37:36+00:00"
         },
         {
             "name": "laminas/laminas-coding-standard",
@@ -2616,20 +2620,20 @@
         },
         {
             "name": "league/uri",
-            "version": "7.8.0",
+            "version": "7.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/uri.git",
-                "reference": "4436c6ec8d458e4244448b069cc572d088230b76"
+                "reference": "08cf38e3924d4f56238125547b5720496fac8fd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/uri/zipball/4436c6ec8d458e4244448b069cc572d088230b76",
-                "reference": "4436c6ec8d458e4244448b069cc572d088230b76",
+                "url": "https://api.github.com/repos/thephpleague/uri/zipball/08cf38e3924d4f56238125547b5720496fac8fd4",
+                "reference": "08cf38e3924d4f56238125547b5720496fac8fd4",
                 "shasum": ""
             },
             "require": {
-                "league/uri-interfaces": "^7.8",
+                "league/uri-interfaces": "^7.8.1",
                 "php": "^8.1",
                 "psr/http-factory": "^1"
             },
@@ -2702,7 +2706,7 @@
                 "docs": "https://uri.thephpleague.com",
                 "forum": "https://thephpleague.slack.com",
                 "issues": "https://github.com/thephpleague/uri-src/issues",
-                "source": "https://github.com/thephpleague/uri/tree/7.8.0"
+                "source": "https://github.com/thephpleague/uri/tree/7.8.1"
             },
             "funding": [
                 {
@@ -2710,20 +2714,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-01-14T17:24:56+00:00"
+            "time": "2026-03-15T20:22:25+00:00"
         },
         {
             "name": "league/uri-interfaces",
-            "version": "7.8.0",
+            "version": "7.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/uri-interfaces.git",
-                "reference": "c5c5cd056110fc8afaba29fa6b72a43ced42acd4"
+                "reference": "85d5c77c5d6d3af6c54db4a78246364908f3c928"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/uri-interfaces/zipball/c5c5cd056110fc8afaba29fa6b72a43ced42acd4",
-                "reference": "c5c5cd056110fc8afaba29fa6b72a43ced42acd4",
+                "url": "https://api.github.com/repos/thephpleague/uri-interfaces/zipball/85d5c77c5d6d3af6c54db4a78246364908f3c928",
+                "reference": "85d5c77c5d6d3af6c54db4a78246364908f3c928",
                 "shasum": ""
             },
             "require": {
@@ -2786,7 +2790,7 @@
                 "docs": "https://uri.thephpleague.com",
                 "forum": "https://thephpleague.slack.com",
                 "issues": "https://github.com/thephpleague/uri-src/issues",
-                "source": "https://github.com/thephpleague/uri-interfaces/tree/7.8.0"
+                "source": "https://github.com/thephpleague/uri-interfaces/tree/7.8.1"
             },
             "funding": [
                 {
@@ -2794,7 +2798,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-01-15T06:54:53+00:00"
+            "time": "2026-03-08T20:05:35+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -6665,5 +6669,5 @@
     "platform-overrides": {
         "php": "8.2.99"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
